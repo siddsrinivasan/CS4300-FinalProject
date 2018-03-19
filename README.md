@@ -581,7 +581,7 @@ As such you must have autoenv installed which means that you must be inside of t
 ``` bash
 # Override cd by adding this to your .?rc file (? = bash, zsh, fish, etc), 
 # according to your current CLI. I'll use bash in this example:
-$ echo "source `which activate`" >> ~/.bashrc
+$ echo "source `which activate.sh`" >> ~/.bashrc
 # Reload your shell
 $ source ~/.bashrc
 # You should have a .env file, if not touch .env and add the 
@@ -615,10 +615,12 @@ First you must install the heroku-cli; the installation instructions can be foun
 After, with your github located at the remote origin you will run the following commands to push to your heroku app.
 ``` bash
 # Login with your heroku credentials
-$ heroku login
+$ heroku auth:login
 Enter your Heroku credentials:
 Email: <YOUR EMAIL>
 Password: <YOUR PASSWORD>
+# This create logic might be deprecated so 
+# navigate to Heroku Dashboard and create app manually
 $ heroku create <YOUR_WEBSITE_NAME>
 $ git push heroku master
 ```
@@ -635,11 +637,9 @@ You may now navigate to `https://<YOUR_WEBSITE_NAME>.herokuapp.com` and see your
 
 **Next steps are optional***
 
-### 7. Setting up Redis on localhost for you to interact with for pre-processing
-**TODO**
-### 8. Setting up App in Amazon Elastic Computing Cloud (EC2) with Redis (USING Amazon ElastiCache)
-**TODO**
-### 9. Docker + Kubernetes
+### 7. Setting up RedisML on localhost for you to interact with for pre-processing
+Build using a Ansible Build or a Kubernetes Helm Chart both of which available [here](https://github.com/cuappdev/devOps/tree/master/redis)
+### 8. Docker + Kubernetes
 **TODO**
 
 ## Getting Started

@@ -21,19 +21,29 @@
             <br><br>
             
             <div class="form-group">
-                <input id="input" type="text" name="search" class="form-control" placeholder="Your Input">
+                <input id="input" type="text" name="search" class="form-control" placeholder="Tell me about: Syria">
             </div>
-            <button type="submit" class="btn btn-info"> Go! </button>
+            <button type="submit" class="btn btn-info"> Search </button>
         </form>
+
         <form class="form-inline global-search">
         {% if data %}
             <h1>{{output_message}}</h1>
+            <br><br>
             {% for d in data %}  
-                <br>
-                <p>{{d}}</p>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Panel title</h3>
+                    </div>
+                    <br>
+                    <div class="panel-body">
+                        {{d}}
+                    </div>
+                </div>
             {% endfor %}
         {% endif %}
-        </form>
+         </form>
+
     </body>
 
 </html>

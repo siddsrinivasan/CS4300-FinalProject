@@ -2,24 +2,16 @@
     <head>
         <link rel="stylesheet" href="/static/bootstrap.min.css">
         <link rel="stylesheet" href="/static/main.css">
+        <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     </head>
     <body>
-        <div class="topcorner">
-            <p>Project Name: {{ name }}</p>
-            <p>Student Name: ({{ netid }})</p>
-        </div>
         <form class="form-inline global-search">
             <h1 style="font-size: 55px; font-family:Futura; color: #4285F4">
-                C
-                <font color=#EA4335>S</font>
-                <font color=#FBBC05>4</font>
-                3
-                <font color=#34A853>0</font>
-                <font color=#EA4335>0</font>
+                INFORMED
             </h1>
-            
             <br><br>
             
+
             <div class="form-group">
                 <input id="input" type="text" name="search" class="form-control" placeholder="Tell me about: Syria">
             </div>
@@ -33,16 +25,50 @@
             {% for d in data %}  
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Panel title</h3>
+                        <h3 class="panel-title"> {{d}}</h3>
                     </div>
                     <br>
                     <div class="panel-body">
-                        {{d}}
+                        This will be the data value
                     </div>
                 </div>
             {% endfor %}
         {% endif %}
+
+        <div class="container">
+            <div class="row">
+                <div class="timeline-centered">
+
+            <article class="timeline-entry">
+        
+                <div class="timeline-entry-inner">
+                    <time class="timeline-time" datetime="2014-01-10T03:45"><span>03:45 AM</span> <span>Today</span></time>
+                    
+                    <div class="timeline-icon bg-success">
+                        <i class="entypo-feather"></i>
+                    </div>
+                    
+                    <div class="timeline-label">
+                        <h2><a href="#">Art Ramadani</a> <span>posted a status update</span></h2>
+                        <p>Tolerably earnestly middleton extremely distrusts she boy now not. Add and offered prepare how cordial two promise. Greatly who affixed suppose but enquire compact prepare all put. Added forth chief trees but rooms think may.</p>
+                    </div>
+                </div>
+            </article>
+
+        </div>
+        </div>
+        </div>
+
+
+
+
+
          </form>
+
+        <div class="topcorner">
+        <p>Project Name: {{ name }}</p>
+        <p>Student Name: ({{ netid }})</p>
+        </div>
 
     </body>
 

@@ -13,7 +13,11 @@ def search():
 		output_message = ''
 	else:
 		output_message = "Your search: " + query
-		data = range(5)
+		data = [("20151005", "Pickles are national holiday"), ("20151005", "Pickles are actually cucumbers"), ("20141204", "Pickles outlawed in Arab Spring")]
+
+		#actual data format: list with tuples ("unique identifier", headline).
+		# Need to parse unique identifier and convert it to date. 
+		# Need to group all events of the same date together for the timeline card.
 	return render_template('search.html', name=project_name, netid=net_id, output_message=output_message, data=data)
 
 

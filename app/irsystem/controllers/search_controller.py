@@ -11,9 +11,15 @@ net_id = "Evan Pike: dep78, Edward Mei: ezm4, Lucas Van Bramer: ljv32, Siddharth
 # def parseId(idstring):
 # 	return idstring[:8]
 
+# def string2date(first8):
+# 	year = first8[:4]
+# 	month = first8[4:6]
+# 	date = first8[6:]
 
-# def dateDict(data):
-# 	for element in data:
+# 	return(month + "/" + date + "/" + year )
+
+# # def dateDict(data):
+# # 	for element in data:
 # 		date = parseId(element[0])
 # 		element = (date, element[1]) 
 
@@ -50,7 +56,16 @@ def search():
 		output_message = ''
 	else:
 		output_message = "Your search: " + query
-		data = [("20151005", ["1","2","3","4","5"]), ("20151006", ["1","2","3","4","5"]), ("20141204", ["1","2","3","4","5"])]
+		first8 = "20151006"
+
+		year = first8[:4]
+		month = first8[4:6]
+		date = first8[6:]
+
+		y = (month + "/" + date + "/" + year )
+
+		data = [(y, ["Pickles pickles pickles pickle pickles. Pickles","2","3","4","5"]), ("20151006", ["1","2","3","4","5"]), ("20141204", ["1","2","3","4","5"])]
+
 
 
 

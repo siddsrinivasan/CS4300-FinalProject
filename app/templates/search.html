@@ -23,38 +23,14 @@
             <h1>{{output_message}}</h1>
             <br><br>
             {% for d in data %}  
-                {% if d % 2 != 0 %}
-                <div class="timeline">
-                    <div class="container left">
-                        <div class="content">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title"> {{d}}  </h3>
-                                </div>
-                                <br>
-                                <div class="panel-body">
-                                    This will be the data value
-                                </div>
-                            </div>
-                        </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"> {{d}}</h3>
                     </div>
-                {% elif d % 2 == 0 %}
-                    <div class="container right">
-                        <div class="content">
-                          <div class="content">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title"> {{d}}</h3>
-                                </div>
-                                <br>
-                                <div class="panel-body">
-                                    This will be the data value
-                                </div>
-                            </div>
-                        </div>
-                        </div>
+                    <br>
+                    <div class="panel-body">
+                        This will be the data value
                     </div>
-                {% endif %}
                 </div>
             {% endfor %}
         {% endif %}

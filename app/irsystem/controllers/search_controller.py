@@ -8,38 +8,38 @@ net_id = "Evan Pike: dep78, Edward Mei: ezm4, Lucas Van Bramer: ljv32, Siddharth
 @irsystem.route('/', methods=['GET'])
 
 
-def parseId(idstring):
-	return idstring[:8]
+# def parseId(idstring):
+# 	return idstring[:8]
 
 
-def dateDict(data):
-	for element in data:
-		date = parseId(element[0])
-		element = (date, element[1]) 
+# def dateDict(data):
+# 	for element in data:
+# 		date = parseId(element[0])
+# 		element = (date, element[1]) 
 
-	dict1 = {}
+# 	dict1 = {}
 
-	for element in data:
+# 	for element in data:
 
-		date = element[0]
-		if date in dict1:
-			dict1[date].append(element[1])
-		else:
-			dict1[date] = [element[1]]
+# 		date = element[0]
+# 		if date in dict1:
+# 			dict1[date].append(element[1])
+# 		else:
+# 			dict1[date] = [element[1]]
 
-	sorted_list = []
+# 	sorted_list = []
 
-	for key1 in dict1:
+# 	for key1 in dict1:
 
-		temp_list = []
-		for article in dict1[key1]:
+# 		temp_list = []
+# 		for article in dict1[key1]:
 
-			temp_list.append(article)
+# 			temp_list.append(article)
 
-		sorted_list.append((key1, temp_list))
+# 		sorted_list.append((key1, temp_list))
 
 
-	return sorted_list
+# 	return sorted_list
 
 
 
@@ -50,7 +50,7 @@ def search():
 		output_message = ''
 	else:
 		output_message = "Your search: " + query
-		data = [("20151005", "Pickles are national holiday"), ("20151005", "Pickles are actually cucumbers"), ("20141204", "Pickles outlawed in Arab Spring")]
+		data = [("20151005", ["1","2","3","4","5"]), ("20151006", ["1","2","3","4","5"]), ("20141204", ["1","2","3","4","5"])]
 
 
 

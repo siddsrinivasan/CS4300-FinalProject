@@ -19,7 +19,7 @@
         </form>
 
         {% if data %}
-        <h1>{{output_message}}</h1>
+        <h3>{{output_message}}</h3>
         <div class= "timeline">
             <br>
 
@@ -28,19 +28,29 @@
                 {% if data.index(d) % 2 != 0 %}
                     <div class="container left">
 
-                        {{d}}
-                        <br>
-                        This will be the data value
+                        <div class="content">
 
-        <!--                     <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title"> {{d}}</h3>
-                            </div>
+                            {{d[0]}}
                             <br>
-                            <div class="panel-body">
-                                This will be the data value
-                            </div>
-                        </div> -->
+                            {% for x in d[1] %}
+
+                                {{x}}
+
+                                <br>
+
+                            {% endfor %}
+
+            <!--                     <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title"> {{d}}</h3>
+                                </div>
+                                <br>
+                                <div class="panel-body">
+                                    This will be the data value
+                                </div>
+                            </div> -->
+
+                        </div>
 
                     </div>
 
@@ -49,19 +59,30 @@
 
                     <div class="container right">
 
-                        {{d}}
-                        <br>
-                        This will be the data value
+                        <div class="content">
 
-        <!--                     <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title"> {{d}}</h3>
-                            </div>
+                            {{d[0]}}
                             <br>
-                            <div class="panel-body">
-                                This will be the data value
-                            </div>
-                        </div> -->
+                            
+                            {% for x in d[1] %}
+
+                                {{x}}
+
+                                <br>
+
+                            {% endfor %}
+
+            <!--                     <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title"> {{d}}</h3>
+                                </div>
+                                <br>
+                                <div class="panel-body">
+                                    This will be the data value
+                                </div>
+                            </div> -->
+
+                        </div>
 
                     </div>
 

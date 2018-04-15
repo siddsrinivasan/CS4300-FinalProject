@@ -66,15 +66,16 @@ color: #4285F4;
     padding: 10px 40px;
     position: relative;
     background-color: tan;
-    width: 50%;
+    width: 240px;
 }
 
 /* Place the container to the left */
 .left {
-    left: 0;
+    left: -135px
+    ;
 }
 
 /* Place the container to the right */
 .right {
-    left: 50%;
+    left: 135px;
 }

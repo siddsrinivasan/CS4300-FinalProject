@@ -10,7 +10,7 @@
                 INFORMED
             </h1>
             <br><br>
-            
+
 
             <div class="form-group">
                 <input id="input" type="text" name="search" class="form-control" placeholder="Tell me about: Syria">
@@ -20,82 +20,37 @@
 
         {% if data %}
         <h3>{{output_message}}</h3>
-        <div class= "timeline">
-            <br>
-
-            {% for d in data %} 
-
+        <div class= "timeline">     <br>
+            {% for d in data %}
                 {% if data.index(d) % 2 != 0 %}
                     <div class="container left">
-
                         <div class="content">
-
-                            <h3 class="date"> {{d[0]}} </h3>
-                            <br>
+                            <h3 class="date"> {{d[0]}} </h3>    <br>
                             {% for x in d[1] %}
-
-                                {{x}}
-
-                                <br><br>
-
+                                <p id = "p2"> {{x}} </p>
                             {% endfor %}
-
-            <!--                     <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title"> {{d}}</h3>
-                                </div>
-                                <br>
-                                <div class="panel-body">
-                                    This will be the data value
-                                </div>
-                            </div> -->
-
                         </div>
-
                     </div>
-
                 {% else %}
 
 
                     <div class="container right">
-
                         <div class="content">
-
                             <h3 class="date"> {{d[0]}} </h3>
                             <br>
-                            
                             {% for x in d[1] %}
-
-                                {{x}}
-
-                                <br> <br>
-
+                                <p id = "p2"> {{x}} </p>
                             {% endfor %}
-
-            <!--                     <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title"> {{d}}</h3>
-                                </div>
-                                <br>
-                                <div class="panel-body">
-                                    This will be the data value
-                                </div>
-                            </div> -->
-
                         </div>
-
                     </div>
-
                 {% endif %}
-
             {% endfor %}
         {% endif %}
-
         </div>
 
         <div class="topcorner">
-        <p>Project Name: {{ name }}</p>
-        <p>Student Name: ({{ netid }})</p>
+        <p id = "p1">Project Name: {{ name }}</p>
+        <p id = "p1">Student Name: ({{ netid }})</p>
         </div>
 
     </body>

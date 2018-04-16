@@ -1,4 +1,4 @@
-from . import *  
+from . import *
 from app.irsystem.models.helpers import *
 from app.irsystem.models.helpers import NumpyEncoder as NumpyEncoder
 
@@ -11,17 +11,11 @@ net_id = "Evan Pike: dep78, Edward Mei: ezm4, Lucas Van Bramer: ljv32, Siddharth
 # def parseId(idstring):
 # 	return idstring[:8]
 
-# def string2date(first8):
-# 	year = first8[:4]
-# 	month = first8[4:6]
-# 	date = first8[6:]
 
-# 	return(month + "/" + date + "/" + year )
-
-# # def dateDict(data):
-# # 	for element in data:
+# def dateDict(data):
+# 	for element in data:
 # 		date = parseId(element[0])
-# 		element = (date, element[1]) 
+# 		element = (date, element[1])
 
 # 	dict1 = {}
 
@@ -46,9 +40,6 @@ net_id = "Evan Pike: dep78, Edward Mei: ezm4, Lucas Van Bramer: ljv32, Siddharth
 
 
 # 	return sorted_list
-
-
-
 def search():
 	query = request.args.get('search')
 	if not query:
@@ -64,15 +55,10 @@ def search():
 
 		y = (month + "/" + date + "/" + year )
 
-		data = [(y, ["Pickles pickles pickles pickle pickles. Pickles","2","3","4","5"]), ("20151006", ["1","2","3","4","5"]), ("20141204", ["1","2","3","4","5"])]
-
-
+		data = [(y, ["Pickles pickles pickles pickle pickles. Pickles","2","3","4","5"]), ("06/05/2018", ["1","2","3","4","5"]), ("01/10/2019", ["1","2","3","4","5"])]
 
 
 		#actual data format: list with tuples ("unique identifier", headline).
-		# Need to parse unique identifier and convert it to date. 
+		# Need to parse unique identifier and convert it to date.
 		# Need to group all events of the same date together for the timeline card.
 	return render_template('search.html', name=project_name, netid=net_id, output_message=output_message, data=data)
-
-
-

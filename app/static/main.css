@@ -32,7 +32,9 @@ margin-bottom:0;
 .topcorner{
 position:absolute;
 top:2%;
-right:2%;
+left:2%;
+width:150px;
+font-size: 10
 }
 .btn{
 background-color: #4285F4;

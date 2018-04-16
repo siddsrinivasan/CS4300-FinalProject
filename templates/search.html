@@ -1,0 +1,58 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="/static/bootstrap.min.css">
+        <link rel="stylesheet" href="/static/main.css">
+        <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    </head>
+    <body>
+        <form class="form-inline global-search">
+            <h1 style="font-size: 55px; font-family:Futura; color: #4285F4">
+                INFORMED
+            </h1>
+            <br><br>
+
+
+            <div class="form-group">
+                <input id="input" type="text" name="search" class="form-control" placeholder="Tell me about: Syria">
+            </div>
+            <button type="submit" class="btn btn-info"> Search </button>
+        </form>
+
+        {% if data %}
+        <h3>{{output_message}}</h3>
+        <div class= "timeline">     <br>
+            {% for d in data %}
+                {% if data.index(d) % 2 != 0 %}
+                    <div class="container left">
+                        <div class="content">
+                            <h3 class="date"> {{d[0]}} </h3>    <br>
+                            {% for x in d[1] %}
+                                <p id = "p2"> {{x}} </p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% else %}
+
+
+                    <div class="container right">
+                        <div class="content">
+                            <h3 class="date"> {{d[0]}} </h3>
+                            <br>
+                            {% for x in d[1] %}
+                                <p id = "p2"> {{x}} </p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        </div>
+
+        <div class="topcorner">
+        <p id = "p1">Project Name: {{ name }}</p>
+        <p id = "p1">Student Name: ({{ netid }})</p>
+        </div>
+
+    </body>
+
+</html>

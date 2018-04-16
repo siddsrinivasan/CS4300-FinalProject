@@ -64,9 +64,7 @@ def search():
 
 		y = (month + "/" + date + "/" + year )
 
-		data = [(y, ["Pickles pickles pickles pickle pickles. Pickles","2","3","4","5"]), ("20151006", ["1","2","3","4","5"]), ("20141204", ["1","2","3","4","5"])]
-
-
+		data = [(y, ["Pickles pickles pickles pickle pickles. Pickles","2","3","4","5"]), ("06/05/2018", ["1","2","3","4","5"]), ("01/10/2019", ["1","2","3","4","5"])]
 
 
 		#actual data format: list with tuples ("unique identifier", headline).

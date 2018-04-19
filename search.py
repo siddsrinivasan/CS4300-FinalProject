@@ -7,6 +7,10 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 
 
 def tokenize_query(query):
+    """
+    Returns a dictionary with structure {term : frequency}. Also preprocesses
+    the input query string using the Sklearn TfidfVectorizer.
+    """
     helper = TfidfVectorizer(min_df=3, stop_words='english',  dtype=np.int16)
     tfidf_preprocessor = helper.build_preprocessor()
     tfidf_tokenizer = helper.build_tokenizer()
@@ -24,6 +28,9 @@ def tokenize_query(query):
 
 
 def get_tfidf_of_query(query_dict):
+    """
+    Using the precomputed idf_vals, returns the tfidf vector of the query.
+    """
     idf_vals = np.load('idf_vals.npy')
     ix, tf = zip(*list(query_dict.items()))
     data = []
@@ -35,6 +42,11 @@ def get_tfidf_of_query(query_dict):
     return q_vec.astype(dtype=np.float16)
 
 def return_relevant_doc_ixs(query_vec, num_docs=20):
+    """
+    Determines the cosine similarity between query and all documents. Returns the
+    [num_docs] most relevant documents.
+    """
+    #TODO: implement a threshold cutoff rather than a number of documents
     tfidf_mat = np.load('tfidf_mat.npy')
     cos_sim = (tfidf_mat.dot(query_vec.T)).T
     gc.collect()
@@ -43,7 +55,12 @@ def return_relevant_doc_ixs(query_vec, num_docs=20):
     return most_rel[:num_docs]
 
 def return_doc_ids(query):
+    """
+    Return a list of document ids of the documents relevant to the query string.
+    """
     tokens = tokenize_query(query)
+    if tokens == {}:
+        return []
     query_vec = get_tfidf_of_query(tokens)
     rel_doc_ixs = return_relevant_doc_ixs(query_vec)
     docix_to_docid = json.load(open('matrix_ix_to_id.json'))
@@ -53,7 +70,12 @@ def return_doc_ids(query):
     return doc_ids
 
 def return_docs(query):
+    """
+    Return the document headline text of the relevant documents.
+    """
     doc_ids = return_doc_ids(query)
+    if doc_ids == []:
+        return []
     id_to_title = json.load(open('id_to_reu_headline.json'))
     docs = []
     for id in doc_ids:
@@ -61,7 +83,8 @@ def return_docs(query):
     return docs
 
 
-# if __name__ == '__main__':
-#     q = 'china threatens war against japan'
-#     docs = return_docs(q)
-#     print(docs)
+if __name__ == '__main__':
+ q = 'russia election hacking'
+ docs = return_docs(q)
+ for doc in docs:
+     print(doc)

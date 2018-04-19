@@ -6,11 +6,23 @@ import pandas as pd
 from collections import defaultdict
 from sklearn.feature_extraction.text import TfidfVectorizer
 
+"""NOTE: this file contains a lot of random stuff from attempts to vectorize
+the data. At present, only the vectorize function (immedietely below) is used.
+There contains code to create a custom tfidf matrix but it is slow. There also
+exists code to tfidf the all the news dataset."""
 
 def vectorize():
+    """
+    The proper method to run to vectorize the reuters headlines.
+    Handles both data cleaning and creating and saving the data neccesary
+    to create the tfidf matrix a vectorize future queries.
+    """
     news = pd.read_csv('data/reu_identifiers.csv', names=['date', 'id', 'title'],usecols=['id', 'title'])
-    news = news[1522577:] #2015 on
     news = news[news['title'].isnull() == False]
+    news = news.drop_duplicates(subset='title')
+    news = news[news.title.str.contains('UPDATE') == False]
+    news = news[news.title.str.contains('CORRECTED') == False]
+    news = news[news.title.str.contains('CORRECTION') == False]
     news.index = np.arange(len(news))
     gc.collect()
     vectorizer = TfidfVectorizer(min_df=3, stop_words='english',  dtype=np.int16)

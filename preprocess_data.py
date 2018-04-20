@@ -1,30 +1,105 @@
+import gc
 import json
 import pickle
 import numpy as np
 import pandas as pd
+from collections import defaultdict
 from sklearn.feature_extraction.text import TfidfVectorizer
 
+"""NOTE: this file contains a lot of random stuff from attempts to vectorize
+the data. At present, only the vectorize function (immedietely below) is used.
+There contains code to create a custom tfidf matrix but it is slow. There also
+exists code to tfidf the all the news dataset."""
 
 def vectorize():
+    """
+    The proper method to run to vectorize the reuters headlines.
+    Handles both data cleaning and creating and saving the data neccesary
+    to create the tfidf matrix a vectorize future queries.
+    """
     news = pd.read_csv('data/reu_identifiers.csv', names=['date', 'id', 'title'],usecols=['id', 'title'])
-
     news = news[news['title'].isnull() == False]
-    news.reindex(labels=np.arange(len(news)))
-
-    vectorizer = TfidfVectorizer(min_df=3,stop_words='english',  dtype=np.int16)
-
-    X = vectorizer.fit_transform((title for title in news['title']))
-
-    id_to_matrix_ix = {}
+    news = news.drop_duplicates(subset='title')
+    news = news[news.title.str.contains('UPDATE') == False]
+    news = news[news.title.str.contains('CORRECTED') == False]
+    news = news[news.title.str.contains('CORRECTION') == False]
+    news.index = np.arange(len(news))
+    gc.collect()
+    vectorizer = TfidfVectorizer(min_df=3, stop_words='english',  dtype=np.int16)
+    gc.collect()
+    X = vectorizer.fit_transform((title for title in news['title'])).astype(dtype=np.float16)
+    gc.collect()
+    matrix_ix_to_id = {}
     for ix, row in news.iterrows():
-        id_to_matrix_ix[row['id']] = ix
-
-    np.save('id_to_vec.npy', X)
+        matrix_ix_to_id[ix] = row['id']
+    gc.collect()
+    np.save('tfidf_mat.npy', X)
+    gc.collect()
     #pickle.dump(id_to_vec, open('reu_tfidf.p', 'wb'))
-    with open('id_to_matrix_ix.json', 'w') as f:
-        json.dump(id_to_matrix_ix, f)
+    with open('matrix_ix_to_id.json', 'w') as f:
+        json.dump(matrix_ix_to_id, f)
+    gc.collect()
+
+    with open('vocab_to_ix.json', 'w') as f:
+        json.dump(vectorizer.vocabulary_, f)
+    gc.collect()
+    np.save('idf_vals.npy', vectorizer.idf_)
+
+def reu_id_to_title():
+    id_to_title = {}
+    for ix, row in news.iterrows():
+        id_to_title[row['id']] = row['title']
+    with open('id_to_reu_headline.json', 'w') as f:
+            json.dump(id_to_title, f)
+
+def vectorize_reu_iden():
+    helper = TfidfVectorizer(min_df=3, stop_words='english',  dtype=np.int16)
+    tfidf_preprocessor = helper.build_preprocessor()
+    tfidf_tokenizer = helper.build_tokenizer()
+
+    news = pd.read_csv('data/reu_identifiers.csv', names=['date', 'id', 'title'],usecols=['id', 'title'])
+    news = news[news['title'].isnull() == False]
+    news = news[2283884:] #2016 on
+    news.reindex(labels=np.arange(len(news)))
+    gc.collect()
+
+    article_tf = {}
+    doc_freq = defaultdict(lambda : 0)
+    unique_toks = set()
+    for ix, story in news.iterrows():
+        tf_dict = defaultdict(lambda : 0)
+        tokens = tfidf_tokenizer(story['title'])
+        story_unique_toks = set(tokens)
+
+        for tok in tokens:
+            tf_dict[tok] += 1
+
+        for tok in story_unique_toks:
+            unique_toks.add(tok)
+            doc_freq[tok] += 1
+
+        article_tf[story['id']] = tf_dict
+
+    gc.collect()
+
+    return article_tf, doc_freq, unique_toks
 
 
+def create_tfidf(article_tf, doc_freq, unique_toks):
+    word_to_ix = {}
+    for ix, word in enumerate(list(unique_toks)):
+        word_to_ix[word] = ix
+
+    gc.collect()
+
+    tfidf_dict = {}
+    for term_freq in article_tf:
+        tfidf_dict[doc] = {}
+        for word in term_freq:
+            tfidf_weight = term_freq[word] / doc_freq[word]
+            tfidf_dict[doc][word_to_ix[word]] = tfidf_weight
+    gc.collect()
+    return tfidf_dict, word_to_ix, doc_freq
 
 
 
@@ -75,6 +150,16 @@ def iterate_data():
         for word in article:
             doc_freq[word] += 1
 
+
+def custom_tfidf():
+    article_tf, doc_freq, unique_toks = vectorize_reu_iden()
+    tfidf_dict, word_to_ix, doc_freq = create_tfidf(article_tf, doc_freq, unique_toks)
+    with open('tfidf_dict.json', 'w') as f:
+        json.dump(tfidf_dict, f)
+    with open('word_to_ix.json', 'w') as f:
+        json.dump(word_to_ix, f)
+    with open('doc_freq.json', 'w') as f:
+        json.dump(doc_freq, f)
 
 if __name__ == '__main__':
     vectorize()

@@ -6,9 +6,12 @@ import os
 app = Flask(__name__)
 
 @app.route("/")
-def hello():
-    return search_controller.search()
+def search_app_current():
+    return search_controller.search_current()
 
+@app.route("/prototype1/")
+def search_app_prot1():
+    return search_controller.search_prot1_controller()
 # @app.route("/?search=<query>")
 # def search_app(query):
 #     q= ''

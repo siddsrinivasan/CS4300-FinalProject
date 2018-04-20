@@ -8,10 +8,6 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 
 
 def tokenize_query(query):
-    """
-    Returns a dictionary with structure {term : frequency}. Also preprocesses
-    the input query string using the Sklearn TfidfVectorizer.
-    """
     helper = TfidfVectorizer(min_df=3, stop_words='english',  dtype=np.int16)
     tfidf_preprocessor = helper.build_preprocessor()
     tfidf_tokenizer = helper.build_tokenizer()
@@ -57,12 +53,7 @@ def return_relevant_doc_ixs(query_vec, num_docs=20):
         return most_rel[:num_docs]
 
 def return_doc_ids(query):
-    """
-    Return a list of document ids of the documents relevant to the query string.
-    """
     tokens = tokenize_query(query)
-    if tokens == {}:
-        return []
     query_vec = get_tfidf_of_query(tokens)
     rel_doc_ixs = return_relevant_doc_ixs(query_vec)
     with open(os.path.join(os.path.dirname(__file__), 'matrix_ix_to_id.json')) as f:
@@ -74,12 +65,7 @@ def return_doc_ids(query):
         return doc_ids
 
 def return_docs(query):
-    """
-    Return the document headline text of the relevant documents.
-    """
     doc_ids = return_doc_ids(query)
-    if doc_ids == []:
-        return []
     with open(os.path.join(os.path.dirname(__file__), 'id_to_reu_headline.json')) as f:
         id_to_title = json.load(f)
         docs = []
@@ -89,8 +75,7 @@ def return_docs(query):
         return docs
 
 
-if __name__ == '__main__':
- q = 'russia election hacking'
- docs = return_docs(q)
- for doc in docs:
-     print(doc)
+# if __name__ == '__main__':
+#     q = 'china threatens war against japan'
+#     docs = return_docs(q)
+#     print(docs)

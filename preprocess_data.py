@@ -7,7 +7,7 @@ from collections import defaultdict
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 """NOTE: this file contains a lot of random stuff from attempts to vectorize
-the data. At present, only the vectorize function (immedietely below) is used.
+the data. At present, only the vectorize function (immedietely below) and vectorize reddit are used.
 There contains code to create a custom tfidf matrix but it is slow. There also
 exists code to tfidf the all the news dataset."""
 
@@ -45,6 +45,32 @@ def vectorize():
     gc.collect()
     np.save('idf_vals.npy', vectorizer.idf_)
 
+def vectorize_reddit():
+    """
+    Method used to vectorize reddit data. Creates tfidf matrix,
+    and saves useful information corresponding to the tfidf matrix.
+    """
+    data = pd.read_csv('data/reddit_data.csv', names=['date', 'score', 'number of comments', 'title', 'url'], skiprows=1)
+    vectorizer = TfidfVectorizer(min_df=3, stop_words='english')
+    titles = data['title']
+    reddit_tfidf = vectorizer.fit_transform(title for title in titles)
+    np.save('reddit_tfidf_mat.npy', reddit_tfidf)
+    
+    mat_idx_to_tup = {}
+    for idx, row in data.iterrows():
+        tup = (row['date'], row['score'], row['number of comments'], row['url'])
+        mat_idx_to_tup[idx] = tup
+    
+    with open('reddit_ix_to_tup.json', 'w') as f:
+        json.dump(mat_idx_to_tup, f)
+    f.close()
+    
+    with open('reddit_vocab_to_ix.json', 'w') as f:
+        json.dump(vectorizer.vocabulary_, f)
+    f.close()
+    
+    np.save('reddit_idf_vals.npy', vectorizer.idf_)
+    
 def reu_id_to_title():
     id_to_title = {}
     for ix, row in news.iterrows():
@@ -162,4 +188,4 @@ def custom_tfidf():
         json.dump(doc_freq, f)
 
 if __name__ == '__main__':
-    vectorize()
+    vectorize_reddit()

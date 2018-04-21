@@ -1,31 +1,33 @@
 <html>
     <head>
+        <!-- Loads Bootstrap templates -->
         <link rel="stylesheet" href="/static/bootstrap.min.css">
         <link rel="stylesheet" href="/static/main.css">
         <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+        <!-- Fonts StyleSheet used to load google fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Gravitas+One|Quicksand" rel="stylesheet">
     </head>
     <body>
-        <form class="form-inline global-search">
-            <h1 style="font-size: 55px; font-family:Futura; color: #4285F4">
-                INFORMD
-            </h1>
+        <form class="form-inline global-search" onsubmit= "preloader()">
+            <h1> informd</h1>
             <br><br>
-
-
             <div class="form-group">
                 <input id="input" type="text" name="search" class="form-control" placeholder="Tell me about: Syria">
             </div>
-            <button type="submit" class="btn btn-info"> Search </button>
+            <button type="submit" class="btn btn-info" id = "search_button"> Search </button>
         </form>
 
+        <div id="loading" style="display: none;"></div>
         {% if data %}
-        <h3>{{output_message}}</h3>
+        <div id="loading" style="display: none;"></div>
+        <h3 id = "search_result" >{{output_message}}</h3>
         <div class= "timeline">     <br>
             {% for d in data %}
                 {% if data.index(d) % 2 != 0 %}
                     <div class="container left">
                         <div class="content">
-                            <h3 class="date"> {{d[0]}} </h3>    <br>
+                            <h3 class="date"> {{d[0]}} </h3>  
+                            <br>
                             {% for x in d[1] %}
                                 <p id = "p2"> {{x}} </p>
                             {% endfor %}
@@ -48,11 +50,21 @@
         {% endif %}
         </div>
 
+        </div>
+
         <div class="topcorner">
         <p id = "p1">Project Name: {{ name }}</p>
         <p id = "p1">Student Name: ({{ netid }})</p>
         </div>
 
     </body>
+
+    <script>
+        function preloader(){
+            console.log("called preloader")
+            loading_div = document.getElementById("loading");
+            loading_div.style.display= "block";
+        }
+    </script>
 
 </html>

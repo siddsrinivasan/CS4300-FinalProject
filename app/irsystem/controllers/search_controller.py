@@ -14,14 +14,23 @@ def search_current():
 		b = []
 		output_message = ''
 	else:
+		change_month = {"01": "January", "02" :"February", "03" : "March", "04" : "April",
+		 "05": "May", "06": "June", "07": "July", "08":"August", "09":"September", "10":"October",
+		 "11":"November", "12": "December"}		 
 		res= search.return_docs(query)
 
 		b= []
 		for each_result in res:
-			date= str(each_result[0][:4]) + '/' + str(each_result[0][4:6]) + '/' + str(each_result[0][6:8])
+			year = each_result[0][:4]
+			day  = each_result[0][6:8]
+			month = each_result[0][4:6]
+			date=  change_month[str(month)] + ' ' + str(int(day)) + ', ' + str(year)
+			date_int = int(year) + int(month) * .1 + int(day) *.001
 			headline=['a']
 			headline[0]= each_result[1]
-			b.append((date, headline))
+			b.append((date, headline, date_int))
+
+		b = sorted(b, key=lambda x: x[2], reverse = True)
 
 		output_message = "Your search (new): " + query
 

@@ -1,5 +1,6 @@
 import gc
 import json
+import scipy
 import pickle
 import numpy as np
 import pandas as pd
@@ -33,7 +34,7 @@ def vectorize():
     for ix, row in news.iterrows():
         matrix_ix_to_id[ix] = row['id']
     gc.collect()
-    np.save('tfidf_mat.npy', X)
+    scipy.sparse.save_npz('tfidf_mat.npz', X)
     gc.collect()
     #pickle.dump(id_to_vec, open('reu_tfidf.p', 'wb'))
     with open('matrix_ix_to_id.json', 'w') as f:
@@ -54,23 +55,23 @@ def vectorize_reddit():
     vectorizer = TfidfVectorizer(min_df=3, stop_words='english')
     titles = data['title']
     reddit_tfidf = vectorizer.fit_transform(title for title in titles)
-    np.save('reddit_tfidf_mat.npy', reddit_tfidf)
-    
+    scipy.sparse.save_npz('reddit_tfidf_mat.npz', reddit_tfidf)
+
     mat_idx_to_tup = {}
     for idx, row in data.iterrows():
         tup = (row['date'], row['score'], row['number of comments'], row['url'])
         mat_idx_to_tup[idx] = tup
-    
+
     with open('reddit_ix_to_tup.json', 'w') as f:
         json.dump(mat_idx_to_tup, f)
     f.close()
-    
+
     with open('reddit_vocab_to_ix.json', 'w') as f:
         json.dump(vectorizer.vocabulary_, f)
     f.close()
-    
+
     np.save('reddit_idf_vals.npy', vectorizer.idf_)
-    
+
 def reu_id_to_title():
     id_to_title = {}
     for ix, row in news.iterrows():

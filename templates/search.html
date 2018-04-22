@@ -9,45 +9,52 @@
     </head>
     <body>
         <form class="form-inline global-search" onsubmit= "preloader()">
-            <h1> informd</h1>
+            <h1 id = "logo"> Informd</h1>
             <br><br>
             <div class="form-group">
-                <input id="input" type="text" name="search" class="form-control" placeholder="Tell me about: Syria">
+                <input id="input" type="text" name="search" class="form-control" placeholder="Tell me about: Israeli-Palestine Conflict">
             </div>
             <button type="submit" class="btn btn-info" id = "search_button"> Search </button>
         </form>
 
-        <div id="loading" style="display: none;"></div>
-        <h3 id = "search_result" >{{output_message}}</h3>
+        <div id="loading" style="display: none;">
+            <div class = "loader"> </div>
+        </div>
 
-        <div class= "timeline">     <br>
-            {% for d in data %}
-                {% if data.index(d) % 2 != 0 %}
-                    <div class="container left">
-                        <div class="content">
-                            <h3 class="date"> {{d[0]}} </h3>  
-                            <br>
-                            {% for x in d[1] %}
-                                <p id = "p2"> {{x}} </p>
-                            {% endfor %}
+        <div id = "all_results">    <!-- Used to contain all 
+            the results so they are hidden with new search -->
+            
+            <h3 id = "search_result" >{{output_message}}</h3>
+
+            <div class= "timeline">     <br>
+                {% for d in data %}
+                    {% if data.index(d) % 2 != 0 %}
+                        <div class="container left">
+                            <div class="content">
+                                <h3 class="date"> {{d[0]}} </h3>  
+                                <br>
+                                {% for x in d[1] %}
+                                    <p id = "p2"> {{x}} </p>
+                                {% endfor %}
+                            </div>
                         </div>
-                    </div>
 
-                {% else %}
+                    {% else %}
 
 
-                    <div class="container right">
-                        <div class="content">
-                            <h3 class="date"> {{d[0]}} </h3>
-                            <br>
-                            {% for x in d[1] %}
-                                <p id = "p2"> {{x}} </p>
-                            {% endfor %}
+                        <div class="container right">
+                            <div class="content">
+                                <h3 class="date"> {{d[0]}} </h3>
+                                <br>
+                                {% for x in d[1] %}
+                                    <p id = "p2"> {{x}} </p>
+                                {% endfor %}
+                            </div>
                         </div>
-                    </div>
-                {% endif %}
-            {% endfor %}
+                    {% endif %}
+                {% endfor %}
 
+            </div>
         </div>
 
         <div class="topcorner">
@@ -59,9 +66,12 @@
 
     <script>
         function preloader(){
-            console.log("called preloader")
+            console.log("called preloader");
+            old_results = document.getElementById("all_results");
+            old_results.style.display = "none"
             loading_div = document.getElementById("loading");
             loading_div.style.display= "block";
+
         }
     </script>
 

@@ -5,7 +5,7 @@
         <link rel="stylesheet" href="/static/main.css">
         <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
         <!-- Fonts StyleSheet used to load google fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Gravitas+One|Quicksand" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Gravitas+One|Quicksand|Quicksand:700" rel="stylesheet">
     </head>
     <body>
         <form class="form-inline global-search" onsubmit= "preloader()">
@@ -31,10 +31,21 @@
                     {% if data.index(d) % 2 != 0 %}
                         <div class="container left">
                             <div class="content">
-                                <h3 class="date"> {{d[0]}} </h3>  
-                                <br>
+
+                                <div class="container_header">
+
+                                    <div class="date"> <p id = "date1"> {{d[0]}} <p> </div> 
+                                    <div class="score"> 
+                                        <p id= heat> 100 </p>
+                                        <img id="icon" src="static/images/light.png">
+                                     </div>
+
+                                </div>
+
+
+                                <br><br>
                                 {% for x in d[1] %}
-                                    <p id = "p2"> {{x}} </p>
+                                    <div id = "p2"> {{x}} </div>
                                 {% endfor %}
                             </div>
                         </div>
@@ -44,10 +55,21 @@
 
                         <div class="container right">
                             <div class="content">
-                                <h3 class="date"> {{d[0]}} </h3>
-                                <br>
+
+                                <div class="container_header">
+
+                                    <div class="date"> <p id = "date1"> {{d[0]}} <p> </div> 
+                                    <div class="score"> 
+                                        <p id= heat> 100 </p>
+                                        <img id="icon" src="static/images/light.png">
+                                     </div>
+                                     
+                                </div>
+
+
+                                <br><br>
                                 {% for x in d[1] %}
-                                    <p id = "p2"> {{x}} </p>
+                                    <div id = "p2"> {{x}} </div>
                                 {% endfor %}
                             </div>
                         </div>

@@ -26,6 +26,19 @@
             
             <h3 id = "search_result" >{{output_message}}</h3>
 
+
+
+            <div class = "time_graph">
+
+                    <svg height="210" width="500">
+                        <line x1="0" y1="0" x2="0" y2="200" style="stroke:rgb(255,0,0);stroke-width:2" />
+                        <line x1="0" y1="200" x2="200" y2="200" style="stroke:rgb(255,0,0);stroke-width:2" />
+                    </svg>
+
+            </div>
+
+            
+
             <div class= "timeline">     <br>
                 {% for d in data %}
                     {% if data.index(d) % 2 != 0 %}
@@ -101,7 +114,7 @@
         var dates_arr = [];
         var scores_arr = [];
             {% for d in data %}
-            
+
                 console.log( String({{ (d[2]) }}) );
                 dates_arr.push( String({{ (d[2]) }}) );
 

@@ -28,7 +28,7 @@ def search_current():
 			date_int = int(year) + int(month) * .1 + int(day) *.001
 			headline=['a']
 			headline[0]= each_result[1]
-			b.append((date, headline, date_int))
+			b.append((date, headline, date_int, each_result[2]))
 
 		b = sorted(b, key=lambda x: x[2], reverse = True)
 

@@ -38,6 +38,7 @@
                                     <div class="score"> 
                                         <p id= heat> 100 </p>
                                         <img id="icon" src="static/images/light.png">
+                                        <img id="icon" src="static/images/reddit.png">
                                      </div>
 
                                 </div>
@@ -62,6 +63,7 @@
                                     <div class="score"> 
                                         <p id= heat> 100 </p>
                                         <img id="icon" src="static/images/light.png">
+                                        <img id="icon" src="static/images/reddit.png">
                                      </div>
                                      
                                 </div>
@@ -95,6 +97,19 @@
             loading_div.style.display= "block";
 
         }
+
+        var dates_arr = [];
+        var scores_arr = [];
+            {% for d in data %}
+            
+                console.log( String({{ (d[2]) }}) );
+                dates_arr.push( String({{ (d[2]) }}) );
+
+                console.log( String({{ (d[3]) }}) );
+                scores_arr.push( String({{ (d[3]) }}) );
+
+            {% endfor %}
+
     </script>
 
 </html>

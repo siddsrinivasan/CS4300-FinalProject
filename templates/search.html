@@ -4,6 +4,8 @@
         <link rel="stylesheet" href="/static/bootstrap.min.css">
         <link rel="stylesheet" href="/static/main.css">
         <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+        <!-- Script for the Visual of the Timeline -->
+        <script src="https://d3js.org/d3.v4.min.js"></script>
         <!-- Fonts StyleSheet used to load google fonts -->
         <link href="https://fonts.googleapis.com/css?family=Gravitas+One|Quicksand|Quicksand:700" rel="stylesheet">
     </head>
@@ -23,40 +25,29 @@
 
         <div id = "all_results">    <!-- Used to contain all 
             the results so they are hidden with new search -->
-            
+
             <h3 id = "search_result" >{{output_message}}</h3>
 
-
-
             <div class = "time_graph">
-
                     <svg height="210" width="500">
                         <line x1="0" y1="0" x2="0" y2="200" style="stroke:rgb(255,0,0);stroke-width:2" />
                         <line x1="0" y1="200" x2="200" y2="200" style="stroke:rgb(255,0,0);stroke-width:2" />
                     </svg>
-
             </div>
-
-            
 
             <div class= "timeline">     <br>
                 {% for d in data %}
                     {% if data.index(d) % 2 != 0 %}
                         <div class="container left">
                             <div class="content">
-
                                 <div class="container_header">
-
                                     <div class="date"> <p id = "date1"> {{d[0]}} <p> </div> 
                                     <div class="score"> 
                                         <p id= heat> 100 </p>
                                         <img id="icon" src="static/images/light.png">
                                         <img id="icon" src="static/images/reddit.png">
                                      </div>
-
                                 </div>
-
-
                                 <br><br>
                                 {% for x in d[1] %}
                                     <div id = "p2"> {{x}} </div>
@@ -65,23 +56,16 @@
                         </div>
 
                     {% else %}
-
-
                         <div class="container right">
                             <div class="content">
-
                                 <div class="container_header">
-
                                     <div class="date"> <p id = "date1"> {{d[0]}} <p> </div> 
                                     <div class="score"> 
                                         <p id= heat> 100 </p>
                                         <img id="icon" src="static/images/light.png">
                                         <img id="icon" src="static/images/reddit.png">
-                                     </div>
-                                     
+                                     </div> 
                                 </div>
-
-
                                 <br><br>
                                 {% for x in d[1] %}
                                     <div id = "p2"> {{x}} </div>
@@ -110,7 +94,7 @@
             loading_div.style.display= "block";
 
         }
-
+        // We need all of this code only to execute when there is data. Lets put it in the loop for if data i guess?
         var dates_arr = [];
         var scores_arr = [];
             {% for d in data %}
@@ -122,6 +106,55 @@
                 scores_arr.push( String({{ (d[3]) }}) );
 
             {% endfor %}
+
+        function plotGraph(data){
+            // console.log(data);
+            var padding = 35;       // allows you to put axis labels
+            var height = 400;       // may need to modify
+            var width = 400;
+
+            
+            var svg = d3.select("svg")      // will need to put the svg within a div.
+            .attr("height", height + 2 * padding).attr("width", width + 2 * padding)
+            .append("g").attr("transform", "translate(" + padding + "," + padding + ")");
+
+            // axis
+
+            var xScale = d3.scaleLinear().domain(d3.extent(data, d=> d.date))   // change from d.date to date int.
+            .range([padding, width]);
+
+            var yScale = d3.scaleLinear().domain(d3.extent(data, d=> d.value))  // change from d.value to the reddit score.
+            .range([height, padding]);
+
+
+            // add the axis to the svg.
+            svg.append("g").call(d3.axisLeft(yScale)).attr("transform", "translate(" + padding + ", 0)");
+            svg.append("g").call(d3.axisBottom(xScale).tickFormat(d3.format("d")))
+                .attr("transform", "translate(0," + (height) + ")");
+
+            // svg.append("text").attr("transform", "translate(" + padding + ", 0)").text("Monthly Job Change");
+            svg.append("text").attr("transform", "rotate(270) translate(" + -width/2  + ", -10)").text("Job Change"); // Might need to realign
+            svg.append("text").attr("transform", "translate(200, 430)").text("Date");
+
+
+            // creates the line that connects the points. 
+            var line = d3.line()
+            .x(function(d) { return xScale(d.date); })      // change
+            .y(function(d) { return yScale(d.value); });    // change
+
+            // add this line to the graph.
+            svg.append("path")
+                .attr("d", line(data))
+                .style("stroke", "#000000")
+                .style("fill", "none");
+
+            svg.append("circle")
+                .attr("cx", xScale(data[j].date))       // change 
+                .attr("cy", yScale(data[j].value))      // change
+                .attr("r", 2)     
+                .style("fill", "black");    // need to check that this color works.
+            }
+        }
 
     </script>
 

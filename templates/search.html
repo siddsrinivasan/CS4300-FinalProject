@@ -5,7 +5,7 @@
         <link rel="stylesheet" href="/static/main.css">
         <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
         <!-- Fonts StyleSheet used to load google fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Gravitas+One|Quicksand" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Gravitas+One|Quicksand|Quicksand:700" rel="stylesheet">
     </head>
     <body>
         <form class="form-inline global-search" onsubmit= "preloader()">
@@ -26,15 +26,40 @@
             
             <h3 id = "search_result" >{{output_message}}</h3>
 
+
+
+            <div class = "time_graph">
+
+                    <svg height="210" width="500">
+                        <line x1="0" y1="0" x2="0" y2="200" style="stroke:rgb(255,0,0);stroke-width:2" />
+                        <line x1="0" y1="200" x2="200" y2="200" style="stroke:rgb(255,0,0);stroke-width:2" />
+                    </svg>
+
+            </div>
+
+            
+
             <div class= "timeline">     <br>
                 {% for d in data %}
                     {% if data.index(d) % 2 != 0 %}
                         <div class="container left">
                             <div class="content">
-                                <h3 class="date"> {{d[0]}} </h3>  
-                                <br>
+
+                                <div class="container_header">
+
+                                    <div class="date"> <p id = "date1"> {{d[0]}} <p> </div> 
+                                    <div class="score"> 
+                                        <p id= heat> 100 </p>
+                                        <img id="icon" src="static/images/light.png">
+                                        <img id="icon" src="static/images/reddit.png">
+                                     </div>
+
+                                </div>
+
+
+                                <br><br>
                                 {% for x in d[1] %}
-                                    <p id = "p2"> {{x}} </p>
+                                    <div id = "p2"> {{x}} </div>
                                 {% endfor %}
                             </div>
                         </div>
@@ -44,10 +69,22 @@
 
                         <div class="container right">
                             <div class="content">
-                                <h3 class="date"> {{d[0]}} </h3>
-                                <br>
+
+                                <div class="container_header">
+
+                                    <div class="date"> <p id = "date1"> {{d[0]}} <p> </div> 
+                                    <div class="score"> 
+                                        <p id= heat> 100 </p>
+                                        <img id="icon" src="static/images/light.png">
+                                        <img id="icon" src="static/images/reddit.png">
+                                     </div>
+                                     
+                                </div>
+
+
+                                <br><br>
                                 {% for x in d[1] %}
-                                    <p id = "p2"> {{x}} </p>
+                                    <div id = "p2"> {{x}} </div>
                                 {% endfor %}
                             </div>
                         </div>
@@ -73,6 +110,19 @@
             loading_div.style.display= "block";
 
         }
+
+        var dates_arr = [];
+        var scores_arr = [];
+            {% for d in data %}
+
+                console.log( String({{ (d[2]) }}) );
+                dates_arr.push( String({{ (d[2]) }}) );
+
+                console.log( String({{ (d[3]) }}) );
+                scores_arr.push( String({{ (d[3]) }}) );
+
+            {% endfor %}
+
     </script>
 
 </html>

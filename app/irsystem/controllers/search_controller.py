@@ -16,8 +16,8 @@ def search_current():
 	else:
 		change_month = {"01": "January", "02" :"February", "03" : "March", "04" : "April",
 		 "05": "May", "06": "June", "07": "July", "08":"August", "09":"September", "10":"October",
-		 "11":"November", "12": "December"}		 
-		res= search.return_docs(query)
+		 "11":"November", "12": "December"}
+		res= search.complete_search(query)
 
 		b= []
 		for each_result in res:
@@ -28,7 +28,7 @@ def search_current():
 			date_int = int(year) + int(month) * .1 + int(day) *.001
 			headline=['a']
 			headline[0]= each_result[1]
-			b.append((date, headline, date_int))
+			b.append((date, headline, date_int, each_result[2]))
 
 		b = sorted(b, key=lambda x: x[2], reverse = True)
 

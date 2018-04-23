@@ -2,7 +2,6 @@ h3 {
     text-align:center;
     font-size: 14px;
     font-family: Quicksand;
-    font-weight: Bold;
 }
 
 #p1 {
@@ -13,6 +12,7 @@ h3 {
 #p2 {
     font-family: Futura;
     font-size: 15px;
+    position:relative;
 }
 
 #logo {
@@ -20,7 +20,52 @@ h3 {
     font-size: 45px;
 }
 
+/*________WITH REDDIT SCORE____________________________*/
+
+#date1 {
+    float: left;
+}
+
+#heat {
+    float: right;
+    font-family: Quicksand;
+    font-weight: bold;
+}
+
+.date {
+    text-align:center;
+    font-size: 14px;
+    font-family: Quicksand;
+    width:50%;
+    height:20px;
+    float: left;
+}
+
+.score{
+    width:50%;
+    height:20px;
+    float: left;
+}
+
+#icon{
+    width: 20px;
+    height: 20px;
+    float: right;
+}
+
+.container_header{
+    width: 100%;
+}
 /*____________________________________*/
+
+/*________TIME GRAPH____________________________*/
+
+.time_graph{
+    
+}
+
+/*____________________________________*/
+
 
 .loader {
   border: 12px solid #f3f3f3;

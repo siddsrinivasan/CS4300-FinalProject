@@ -59,7 +59,7 @@ def vectorize_reddit():
 
     mat_idx_to_tup = {}
     for idx, row in data.iterrows():
-        tup = (row['date'], row['score'], row['number of comments'], row['url'])
+        tup = (row['date'], row['title'], row['score'], row['number of comments'], row['url'])
         mat_idx_to_tup[idx] = tup
 
     with open('reddit_ix_to_tup.json', 'w') as f:

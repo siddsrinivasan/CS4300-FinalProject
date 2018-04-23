@@ -7,7 +7,7 @@
         <!-- Script for the Visual of the Timeline -->
         <script src="https://d3js.org/d3.v4.min.js"></script>
         <!-- Fonts StyleSheet used to load google fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Gravitas+One|Quicksand|Quicksand:700" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:700|Quicksand|Quicksand:700" rel="stylesheet">
     </head>
     <body>
         <form class="form-inline global-search" onsubmit= "preloader()">
@@ -28,12 +28,12 @@
 
             <h3 id = "search_result" >{{output_message}}</h3>
 
-            <div class = "time_graph">
+<!--             <div class = "time_graph">
                     <svg height="210" width="500">
                         <line x1="0" y1="0" x2="0" y2="200" style="stroke:rgb(255,0,0);stroke-width:2" />
                         <line x1="0" y1="200" x2="200" y2="200" style="stroke:rgb(255,0,0);stroke-width:2" />
                     </svg>
-            </div>
+            </div> -->
 
             <div class= "timeline">     <br>
                 {% for d in data %}
@@ -154,7 +154,6 @@
                 .attr("r", 2)     
                 .style("fill", "black");    // need to check that this color works.
             }
-        }
 
     </script>
 

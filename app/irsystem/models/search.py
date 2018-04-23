@@ -1,13 +1,17 @@
 import gc
 import os
 import json
+import pandas
 import numpy as np
 import sys
+import string
 from collections import defaultdict
 from scipy.sparse import csr_matrix, load_npz
 from query_expansion import expand_query
 from sklearn.feature_extraction.text import TfidfVectorizer
 
+reload(sys)
+sys.setdefaultencoding('utf8')
 BASE = "/app/app/irsystem/models/"
 
 def tokenize_query(query, ds):
@@ -138,21 +142,33 @@ def complete_search(query):
             print >> sys.stderr, "opened files"
             reddit_ix_to_val = json.load(f1)
             date_to_id = json.load(f2)
-
             print >> sys.stderr, "loaded files"
             #Iterate over reddit tuples (i.e. big cards)
             for val, ix in reddit_ixs:
                 tup = reddit_ix_to_val[str(ix)]
-                tup_ixs = date_to_id.get(str(tup[0]), -1)
+
+                baddate= tup[0]
+                baddate= string.split(baddate, '/')
+                reddate= baddate[2]
+                if len(baddate[0]) == 1:
+                    reddate += "0" + baddate[0]
+                else:
+                    reddate += baddate[0]
+                if len(baddate[1]) == 1:
+                    reddate += "0" + baddate[1]
+                else:
+                    reddate += baddate[1]
+
+                tup_ixs = date_to_id.get(reddate.encode("utf8"), -1)
                 #Reddit has date, but reuters does not
                 if tup_ixs == -1:
                     #print("IN -1")
-                    card = (str(tup[0]), tup[1].encode("utf8"), tup[2], tup[3], tup[4].encode("utf8"), [])
+                    card = [reddate.encode("utf8"), tup[1].encode("utf8"), tup[2], tup[3], tup[4].encode("utf8"), []]
                     cards.append(card)
                     continue
                 tup_ixs = set([date.encode("utf8") for date in tup_ixs])
                 inter = reu_id_set.intersection(tup_ixs)
-                card = (str(tup[0]), tup[1].encode("utf8"), tup[2], tup[3], tup[4].encode("utf8"), inter)
+                card = [reddate.encode("utf8"), tup[1].encode("utf8"), tup[2], tup[3], tup[4].encode("utf8"), inter]
                 reu_id_set -= set(tup_ixs)
                 cards.append(card)
             f1.close()
@@ -162,19 +178,30 @@ def complete_search(query):
                 cossim = reu_id_dict[reu_id]
                 if cossim > 5.5:
                     date = str(reu_id)[:8]
-                    card = (date, reu_id)
+                    card = [date, reu_id]
                     cards.append(card)
     gc.collect()
 
     with open(os.path.join(BASE, os.path.join('reuters', 'id_to_reu_headline.csv'))) as f3:
-        print >> sys.stderr, "tryna load f3"
+        print >> sys.stderr, "loading f3"
         id_to_reu= pandas.read_csv(f3)
         print >> sys.stderr, "loaded f3"
-
-
-
-
         f3.close()
+    gc.collect()
+    id_ind= pandas.Index(id_to_reu["id"])
+    head_ind= pandas.Index(id_to_reu["headline"])
+    print >> sys.stderr, "populating cards with headlines"
+    for each_card in cards:
+        if len(each_card) == 2:
+            loc= id_ind.get_loc(each_card[1])
+            each_card[1]= head_ind[loc].encode("utf8")
+        else:
+            list_headlines=[]
+            for each_id in each_card[5]:
+                loc= id_ind.get_loc(each_id)
+                list_headlines.append(head_ind[loc].encode("utf8"))
+            each_card[5]= list_headlines
+        print >> sys.stderr, each_card
     return cards
 
 if __name__ == '__main__':

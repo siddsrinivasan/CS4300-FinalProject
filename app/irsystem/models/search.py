@@ -35,7 +35,7 @@ def tokenize_query(query, ds):
             if tfidf_vocab_ix != -1:
                 query_dict_ix[vocab_to_ix[tok]] += 1
                 query_dict_term[tok] += 1
-        expanded_query_dict = expand_query(query_dict_ix, query_dict_term, f)
+        expanded_query_dict = expand_query(query_dict_ix, query_dict_term, vocab_to_ix)
         gc.collect()
         f.close()
         return expanded_query_dict

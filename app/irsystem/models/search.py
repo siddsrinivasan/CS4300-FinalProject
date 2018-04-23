@@ -5,6 +5,7 @@ import numpy as np
 import sys
 from collections import defaultdict
 from scipy.sparse import csr_matrix, load_npz
+from query_expansion import expand_query
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 BASE = "/app/app/irsystem/models/"
@@ -23,14 +24,17 @@ def tokenize_query(query, ds):
         prepro_q = tfidf_preprocessor(query)
         q_tokens = tfidf_tokenizer(prepro_q)
         gc.collect()
-        query_dict = defaultdict(int)
+        query_dict_ix = defaultdict(int)
+        query_dict_term = defaultdict(int)
         for tok in q_tokens:
             tfidf_vocab_ix = vocab_to_ix.get(tok, -1)
             if tfidf_vocab_ix != -1:
-                query_dict[vocab_to_ix[tok]] += 1
+                query_dict_ix[vocab_to_ix[tok]] += 1
+                query_dict_term[tok] += 1
+        expanded_query_dict = expand_query(query_dict_ix, query_dict_term, f)
         gc.collect()
         f.close()
-        return query_dict
+        return expanded_query_dict
 
 
 def get_tfidf_of_query(query_dict, ds):
@@ -173,8 +177,8 @@ def complete_search(query):
         f3.close()
     return cards
 
-#if __name__ == '__main__':
-#  q = 'russia election hacking'
-#  docs = complete_search(q)
-#  for doc in docs:
-#      print(doc)
+if __name__ == '__main__':
+    q = 'russia election hacking'
+    docs = complete_search(q)
+    for doc in docs:
+        print(doc)

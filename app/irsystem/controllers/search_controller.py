@@ -1,9 +1,12 @@
 from . import *
+import sys
 from app.irsystem.models.helpers import *
 from app.irsystem.models.helpers import NumpyEncoder as NumpyEncoder
 from app.irsystem.models import search as search
 from app.irsystem.models import search_prot1 as search_prot1
 
+reload(sys)
+sys.setdefaultencoding('utf8')
 project_name = "Informd"
 net_id = "Evan Pike: dep78, Edward Mei: ezm4, Lucas Van Bramer: ljv32, Siddharth Srinavasan: ss2969, Wes Gurnee: rwg97"
 
@@ -28,11 +31,11 @@ def search_current():
 			date_int = int(year) + int(month) * .1 + int(day) *.001
 			headline=['a']
 			headline[0]= each_result[1]
-			b.append((date, headline, date_int, each_result[2]))
+			b.append((date, headline, date_int))
 
 		b = sorted(b, key=lambda x: x[2], reverse = True)
 
-		output_message = "Your search (new): " + query
+		output_message = "Your search: " + query
 
 		# actual data format: list with tuples ("unique identifier", headline).
 		# Need to parse unique identifier and convert it to date.

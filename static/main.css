@@ -16,8 +16,9 @@ h3 {
 }
 
 #logo {
-    font-family: Gravitas One;
+    font-family: Roboto Slab;
     font-size: 45px;
+    font-weight: bold;
 }
 
 /*________WITH REDDIT SCORE____________________________*/
@@ -30,6 +31,11 @@ h3 {
     float: right;
     font-family: Quicksand;
     font-weight: bold;
+    padding-right: 10px;
+}
+
+#redditlogo {
+    padding-right: 150px;
 }
 
 .date {
@@ -51,6 +57,7 @@ h3 {
     width: 20px;
     height: 20px;
     float: right;
+    padding-right: 150px;
 }
 
 .container_header{

@@ -25,7 +25,7 @@ def search_current():
 		b= []
 		for each_result in res:
 			length_card = len(each_result)
-			reddit_score = "N/A"
+			reddit_score = "NA"
 			url = "nope"
 			#account for no reddit score
 			if length_card > 2:
@@ -35,7 +35,7 @@ def search_current():
 			day  = each_result[0][6:8]
 			month = each_result[0][4:6]
 			date=  change_month[str(month)] + ' ' + str(int(day)) + ', ' + str(year)
-			date_int = int(year) + int(month) * .01 + int(day) *.0001
+			date_int = int(year) + round(int(month)/12.0 ,2) + round(int(day)/32, 2) *.01
 			headline=['a']
 			headline[0]= each_result[1]
 

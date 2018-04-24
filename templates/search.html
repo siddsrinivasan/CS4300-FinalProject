@@ -11,7 +11,8 @@
     </head>
     <body>
         <form class="form-inline global-search" onsubmit= "preloader()">
-            <h1 id = "logo"> Informd</h1>
+            <h1 id = "logo"> Informd</h1> <br style = "line-height: 25%">
+            <h2 id = "subtitle"> the evolution of news </h2>
             <br><br>
             <div class="form-group">
                 <input id="input" type="text" name="search" class="form-control" placeholder="Tell me about: Israeli-Palestine Conflict">
@@ -84,10 +85,10 @@
 
             </div>
         </div>
-
-        <div class="topcorner">
-        <p id = "p1">Project Name: {{ name }}</p>
-        <p id = "p1">Student Name: ({{ netid }})</p>
+        <br>
+        <div class="footer">
+        <p id = "p1">Project Name: {{ name }} || Student Names: ({{ netid }})</p>
+ <!--        <p id = "p1"></p> -->
         </div>
 
     </body>
@@ -101,21 +102,9 @@
             loading_div.style.display= "block";
 
         }
-        // We need all of this code only to execute when there is data. Lets put it in the loop for if data i guess?
-        var dates_arr = [];
-        var scores_arr = [];
-            {% for d in data %}
 
-                console.log( String({{ (d[2]) }}) );
-                dates_arr.push( String({{ (d[2]) }}) );
-
-                console.log( String({{ (d[3]) }}) );
-                scores_arr.push( String({{ (d[3]) }}) );
-
-            {% endfor %}
-
-        function plotGraph(data){
-            // console.log(data);
+        function plotGraph(xdata, ydata){
+            console.log(xdata);
             var padding = 35;       // allows you to put axis labels
             var height = 400;       // may need to modify
             var width = 400;
@@ -126,13 +115,11 @@
             .append("g").attr("transform", "translate(" + padding + "," + padding + ")");
 
             // axis
-
-            var xScale = d3.scaleLinear().domain(d3.extent(data, d=> d.date))   // change from d.date to date int.
+            var xScale = d3.scaleLinear().domain(d3.extent(xdata))   // change from d.date to date int.
             .range([padding, width]);
 
-            var yScale = d3.scaleLinear().domain(d3.extent(data, d=> d.value))  // change from d.value to the reddit score.
+            var yScale = d3.scaleLinear().domain(d3.extent(ydata))  // change from d.value to the reddit score.
             .range([height, padding]);
-
 
             // add the axis to the svg.
             svg.append("g").call(d3.axisLeft(yScale)).attr("transform", "translate(" + padding + ", 0)");
@@ -140,28 +127,62 @@
                 .attr("transform", "translate(0," + (height) + ")");
 
             // svg.append("text").attr("transform", "translate(" + padding + ", 0)").text("Monthly Job Change");
-            svg.append("text").attr("transform", "rotate(270) translate(" + -width/2  + ", -10)").text("Job Change"); // Might need to realign
+            svg.append("text").attr("transform", "rotate(270) translate(" + -width/2  + ", -10)").text("Reddit Score"); // Might need to realign
             svg.append("text").attr("transform", "translate(200, 430)").text("Date");
 
 
-            // creates the line that connects the points. 
-            var line = d3.line()
-            .x(function(d) { return xScale(d.date); })      // change
-            .y(function(d) { return yScale(d.value); });    // change
+            // // creates the line that connects the points. 
+            // var line = d3.line()
+            // .x(function(d) { return xScale(d.date); })      // change
+            // .y(function(d) { return yScale(d.value); });    // change
 
-            // add this line to the graph.
-            svg.append("path")
-                .attr("d", line(data))
-                .style("stroke", "#000000")
-                .style("fill", "none");
+            // // add this line to the graph.
+            // svg.append("path")
+            //     .attr("d", line(data))
+            //     .style("stroke", "#000000")
+            //     .style("fill", "none");
 
             svg.append("circle")
-                .attr("cx", xScale(data[j].date))       // change 
-                .attr("cy", yScale(data[j].value))      // change
+                .attr("cx", xScale(xdata[j]))       // change 
+                .attr("cy", yScale(ydata[j]))      // change
                 .attr("r", 2)     
                 .style("fill", "black");    // need to check that this color works.
             }
 
     </script>
+
+               <!--  <div id= "timegraph"> 
+                    <svg width="0" height="0">
+                    {% if data %}
+                        <script>
+                            console.log("if data")
+                                    // We need all of this code only to execute when there is data. Lets put it in the loop for if data i guess?
+                            var dates_arr = [];
+                            var scores_arr = [];
+                            {% for d in data %}
+                                dates_arr.push(String({{(d[2])}}));
+                                scores_arr.push(String({{(d[3])}}));
+                             {% endfor %}
+
+                            dates_final = [];
+                            scores_final = [];
+
+                            for (i = 0; i < dates_arr.length; i++) { 
+                                if (scores_arr[i] ! = "N/A"){
+                                    scores_final.push(Number(100));
+                                    dates_final.push(Number(dates_arr[i]));
+                                }
+                                else{
+                                    scores_final.push(Number(scores_arr[i]));
+                                    dates_final.push(Number(dates_arr[i]));
+
+                                }
+                            }
+
+                            plotGraph(scores_final, dates_final);
+                        </script>
+                        <br>
+                    {% endif %}
+            </div> -->
 
 </html>

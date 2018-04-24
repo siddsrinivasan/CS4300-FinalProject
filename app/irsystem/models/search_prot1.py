@@ -3,15 +3,16 @@ import os
 import json
 import numpy as np
 from collections import defaultdict
-from scipy.sparse import csr_matrix
+from scipy.sparse import csr_matrix, load_npz
 from sklearn.feature_extraction.text import TfidfVectorizer
+
 
 
 def tokenize_query(query):
     helper = TfidfVectorizer(min_df=3, stop_words='english',  dtype=np.int16)
     tfidf_preprocessor = helper.build_preprocessor()
     tfidf_tokenizer = helper.build_tokenizer()
-    with open(os.path.join(os.path.dirname(__file__), 'vocab_to_ix.json')) as f:
+    with open(os.path.join(os.path.dirname(__file__), 'reuters/vocab_to_ix.json')) as f:
         #vocab_to_ix = json.load(open('vocab_to_ix.json'))
         vocab_to_ix= json.load(f)
         prepro_q = tfidf_preprocessor(query)
@@ -28,7 +29,7 @@ def tokenize_query(query):
 
 
 def get_tfidf_of_query(query_dict):
-    with open(os.path.join(os.path.dirname(__file__), 'idf_vals.npy')) as f:
+    with open(os.path.join(os.path.dirname(__file__), 'reuters/idf_vals.npy')) as f:
         #idf_vals = np.load('idf_vals.npy')
         idf_vals= np.load(f)
         ix, tf = zip(*list(query_dict.items()))
@@ -42,9 +43,9 @@ def get_tfidf_of_query(query_dict):
         return q_vec.astype(dtype=np.float16)
 
 def return_relevant_doc_ixs(query_vec, num_docs=20):
-    with open(os.path.join(os.path.dirname(__file__), 'tfidf_mat.npy')) as f:
+    with open(os.path.join(os.path.dirname(__file__), 'reuters/tfidf_mat.npz')) as f:
         #tfidf_mat = np.load('tfidf_mat.npy')
-        tfidf_mat= np.load(f)
+        tfidf_mat= load_npz(f)
         cos_sim = (tfidf_mat.dot(query_vec.T)).T
         gc.collect()
         most_rel = zip(cos_sim.data, cos_sim.nonzero()[1])
@@ -56,7 +57,7 @@ def return_doc_ids(query):
     tokens = tokenize_query(query)
     query_vec = get_tfidf_of_query(tokens)
     rel_doc_ixs = return_relevant_doc_ixs(query_vec)
-    with open(os.path.join(os.path.dirname(__file__), 'matrix_ix_to_id.json')) as f:
+    with open(os.path.join(os.path.dirname(__file__), 'reuters/matrix_ix_to_val.json')) as f:
         docix_to_docid = json.load(f)
         doc_ids = []
         for value, ix in rel_doc_ixs:
@@ -66,7 +67,7 @@ def return_doc_ids(query):
 
 def return_docs(query):
     doc_ids = return_doc_ids(query)
-    with open(os.path.join(os.path.dirname(__file__), 'id_to_reu_headline.json')) as f:
+    with open(os.path.join(os.path.dirname(__file__), 'reuters/id_to_reu_headline.json')) as f:
         id_to_title = json.load(f)
         docs = []
         for id in doc_ids:

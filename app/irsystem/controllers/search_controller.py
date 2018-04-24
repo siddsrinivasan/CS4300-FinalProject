@@ -8,7 +8,7 @@ from app.irsystem.models import search_prot1 as search_prot1
 reload(sys)
 sys.setdefaultencoding('utf8')
 project_name = "Informd"
-net_id = "Evan Pike: dep78, Edward Mei: ezm4, Lucas Van Bramer: ljv32, Siddharth Srinavasan: ss2969, Wes Gurnee: rwg97"
+net_id = "Edward Mei: ezm4, Evan Pike: dep78, Lucas Van Bramer: ljv32, Sidd Srinivasan: ss2969, Wes Gurnee: rwg97"
 
 @irsystem.route('/', methods=['GET'])
 def search_current():
@@ -31,15 +31,12 @@ def search_current():
 			if length_card > 2:
 				reddit_score = str(each_result[2])
 				url = str(each_result[4])
-				print url
 			else:
-				print url
-
 			year = each_result[0][:4]
 			day  = each_result[0][6:8]
 			month = each_result[0][4:6]
 			date=  change_month[str(month)] + ' ' + str(int(day)) + ', ' + str(year)
-			date_int = int(year) + int(month) * .1 + int(day) *.001
+			date_int = int(year) + int(month) * .01 + int(day) *.0001
 			headline=['a']
 			headline[0]= each_result[1]
 

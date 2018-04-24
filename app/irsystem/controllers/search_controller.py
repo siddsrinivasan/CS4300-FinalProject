@@ -26,9 +26,15 @@ def search_current():
 		for each_result in res:
 			length_card = len(each_result)
 			reddit_score = "N/A"
+			url = "nope"
 			#account for no reddit score
 			if length_card > 2:
 				reddit_score = str(each_result[2])
+				url = str(each_result[4])
+				print url
+			else:
+				print url
+
 			year = each_result[0][:4]
 			day  = each_result[0][6:8]
 			month = each_result[0][4:6]
@@ -37,7 +43,7 @@ def search_current():
 			headline=['a']
 			headline[0]= each_result[1]
 
-			b.append((date, headline, date_int, reddit_score))
+			b.append((date, headline, date_int, reddit_score, url))
 
 		b = sorted(b, key=lambda x: x[2], reverse = True)
 

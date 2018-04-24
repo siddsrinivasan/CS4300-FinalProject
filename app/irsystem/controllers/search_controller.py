@@ -31,7 +31,6 @@ def search_current():
 			if length_card > 2:
 				reddit_score = str(each_result[2])
 				url = str(each_result[4])
-			else:
 			year = each_result[0][:4]
 			day  = each_result[0][6:8]
 			month = each_result[0][4:6]

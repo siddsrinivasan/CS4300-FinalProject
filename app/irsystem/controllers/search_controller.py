@@ -26,7 +26,7 @@ def search_current():
 		b= []
 		for each_result in res:
 			length_card = len(each_result)
-			reddit_score = "N/A"
+			reddit_score = "NA"
 			url = "nope"
 			#account for no reddit score
 			if length_card > 2:

@@ -203,9 +203,9 @@ def complete_search(query):
             each_card[5]= list_headlines
         print >> sys.stderr, each_card
     return cards
-#
-# if __name__ == '__main__':
-#     q = 'russia election hacking'
-#     docs = complete_search(q)
-#     for doc in docs:
-#         print(doc)
+
+if __name__ == '__main__':
+    q = 'russia election hacking'
+    docs = complete_search(q)
+    for doc in docs:
+        print(doc)

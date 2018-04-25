@@ -89,11 +89,12 @@
             </div>
         </div>
         <br>
-        <div class="footer">
+        <div id = "bottom_screen_footer" class="footer">
         <p id = "p1">Project Name: {{ name }} || Student Names: {{ netid }}</p>
- <!--        <p id = "p1"></p> -->
         </div>
-
+<!--         <div id = "bottom_page_footer" class="footer1" style = "display: none">
+        <p id = "p1">Project Name: {{ name }} || Student Names: {{ netid }}</p>
+        </div> -->
     </body>
 
     <script>
@@ -103,6 +104,9 @@
             old_results.style.display = "none"
             loading_div = document.getElementById("loading");
             loading_div.style.display= "block";
+            footer0 = document.getElementById("bottom_screen_footer");
+            footer0.style.display = "block";
+ 
 
         }
 
@@ -133,7 +137,7 @@
 
             // add the axis to the svg.
             svg.append("g").call(d3.axisLeft(yScale)).attr("transform", "translate(" + 5*padding + ", 0)");
-            svg.append("g").call(d3.axisBottom(xScale).tickFormat(d3.format("d")))
+            svg.append("g").call(d3.axisBottom(xScale).tickFormat(d3.format("d")).ticks(4))
                 .attr("transform", "translate(0," + (height) + ")");
 
             // svg.append("text").attr("transform", "translate(" + padding + ", 0)").text("Monthly Job Change");
@@ -143,9 +147,8 @@
 
             // creates the line that connects the points. 
             var line = d3.line()
-            .interpolate("basis")
-            .x(function(d) { return xScale(d.date); })      // change
-            .y(function(d) { return yScale(d.reddit_score); });    // change
+            .x(function(d) { return xScale(d.date); })    
+            .y(function(d) { return yScale(d.reddit_score); });
 
             // add this line to the graph.
             svg.append("path")
@@ -154,17 +157,15 @@
                 .style("fill", "none");
 
             // svg.append("circle")
-            //     .attr("cx", xScale(xdata[j]))       // change 
-            //     .attr("cy", yScale(ydata[j]))      // change
+            //     .attr("cx", function(d) { return xScale(d.date); })       // change 
+            //     .attr("cy", function(d) { return yScale(d.reddit_score); })      // change
             //     .attr("r", 2)     
             //     .style("fill", "black");    // need to check that this color works.
             }
 
 
-
             // DATA 
             {% if data %}
-
                 console.log("if data")
                         // We need all of this code only to execute when there is data. Lets put it in the loop for if data i guess?
                 var dates_arr = [];

@@ -36,7 +36,7 @@ def search_current():
 			day  = each_result[0][6:8]
 			month = each_result[0][4:6]
 			date=  change_month[str(month)] + ' ' + str(int(day)) + ', ' + str(year)
-			date_int = int(year) + round(int(month)/12.0 ,2) + round(int(day)/32, 2) *.01
+			date_int = int(year) + round(int(month)/12.0, 2) + round(int(day)/32.0, 2) *.01
 			headline=['a']
 			headline[0]= each_result[1]
 

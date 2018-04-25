@@ -44,20 +44,32 @@
                     {% if data.index(d) % 2 != 0 %}
                         <div class="container left">
                             <div class="content">
-                                <div class="container_header">
-                                    <div class="date"> <p id = "date1"> {{d[0]}} <p> </div> 
-                                    <div class="score"> 
-                                        <p id= heat> {{d[3]}} </p>
-<!--                                         <img id="icon" src="static/images/light.png"> -->
-                                        <img id="icon" src="static/images/reddit.png">
-                                     </div>
-                                </div>
-                                <br><br>
                                 {% for x in d[1] %}
                                         {% if d[4] == "nope" %}
+                                            <div class="container_header">
+                                                <div class="date"> <p id = "date1"> {{d[0]}} <p> </div> 
+                                                <div class="score"> 
+                                                    <p id= heat>  {{d[3]}} </p>
+                                                    <img id="icon" src="static/images/light.png">
+                                                </div>
+                                            </div>
+                                            <br><br>
+
                                             <div id = "p2"> {{x}} </div>
                                         {%else %}
-                                            <div id="p2"><a href="{{d[4]}}">{{x}}</a></div>
+
+                                        <div class="container_header">
+                                                <div class="date"> <p id = "date1"> {{d[0]}} <p> </div> 
+                                                <div class="score"> 
+                                                    <p id= heat>  {{d[3]}} </p>
+                                                    <img id="icon2" src="static/images/reddit.png">
+                                                    <img id="icon" src="static/images/light.png">
+                                                </div>
+                                            </div>
+                                            <br><br>
+
+                                            <div id="p2"> <a href="{{d[4]}}"> {{x}}</a></div>
+                                            
                                         {% endif %}
                                 {% endfor %}
                             </div>
@@ -65,22 +77,36 @@
                     {% else %}
                         <div class="container right">
                             <div class="content">
-                                <div class="container_header">
-                                    <div class="date"> <p id = "date1"> {{d[0]}} <p> </div> 
-                                    <div class="score"> 
-                                        <p id= heat> {{d[3]}} </p>
-<!--                                         <img id="icon" src="static/images/light.png"> -->
-                                            <img id="icon" src="static/images/reddit.png">
-                                     </div> 
-                                </div>
-                                <br><br>
+
                                 {% for x in d[1] %}
-                                    {% if d[4] == "nope" %}
+                                        {% if d[4] == "nope" %}
+                                            <div class="container_header">
+                                                <div class="date"> <p id = "date1"> {{d[0]}} <p> </div> 
+                                                <div class="score"> 
+                                                    <p id= heat>  {{d[3]}} </p>
+                                                    <img id="icon" src="static/images/light.png">
+                                                </div>
+                                            </div>
+                                            <br><br>
+
                                             <div id = "p2"> {{x}} </div>
                                         {%else %}
-                                            <div id="p2"><a href="{{d[4]}}">{{x}}</a></div>
+
+                                        <div class="container_header">
+                                                <div class="date"> <p id = "date1"> {{d[0]}} <p> </div> 
+                                                <div class="score"> 
+                                                    <p id= heat>  {{d[3]}} </p>
+                                                    <img id="icon2" src="static/images/reddit.png">
+                                                    <img id="icon" src="static/images/light.png">
+                                                </div>
+                                            </div>
+                                            <br><br>
+
+                                            <div id="p2"> <a href="{{d[4]}}"> {{x}}</a></div>
+                                            
                                         {% endif %}
                                 {% endfor %}
+                                
                             </div>
                         </div>
                     {% endif %}

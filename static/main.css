@@ -85,10 +85,20 @@ h1 {
     float: left;
 }
 
+#icon2{
+    width: 25px;
+    height: 20px;
+    float: right;
+    padding-right: 5px;
+    
+
+}
+
 #icon{
     width: 20px;
     height: 20px;
     float: right;
+    
 }
 
 .container_header{
@@ -198,7 +208,7 @@ color: black;
 
 /* Container around content */
 .container {
-    padding: 10px 40px;
+    padding: 20px 40px;
     position: relative;
     background-color: transparent;
     width: 400px;

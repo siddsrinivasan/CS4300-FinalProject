@@ -98,17 +98,12 @@ h1 {
 
 /*________TIME GRAPH____________________________*/
 
-#time_graph{
+#timegraph{
+    width: 700px;
+    margin: auto;
 }
 
 #svg_graph{
-
-  margin: 0 auto; /* poor attempt at centering */
-
-  height: auto !important; /* overrides inline */
-  width: auto !important; /* overrides inline */
-
-  display: block;
 }
 
 /*____________________________________*/

@@ -1,18 +1,9 @@
-body{
-    background-image: url("images/background.jpg");
-    background-size: 100% auto;
-    background-repeat: repeat-y;
-}
-
 h3 {
     text-align:center;
     font-size: 14px;
     font-family: Quicksand;
 }
 
-h1 {
-    position:relative;
-}
 #p1 {
     font-family: Quicksand;
     font-size: 12px;
@@ -47,10 +38,10 @@ h1 {
     left: 0;
     bottom: 0;
     width: 100%;
-    background-color: white;
+    color: white;
     text-align: center;
+    background-color: white;
 }
-
 
 
 /*________WITH REDDIT SCORE____________________________*/
@@ -85,20 +76,10 @@ h1 {
     float: left;
 }
 
-#icon2{
-    width: 25px;
-    height: 20px;
-    float: right;
-    padding-right: 5px;
-    
-
-}
-
 #icon{
     width: 20px;
     height: 20px;
     float: right;
-    
 }
 
 .container_header{
@@ -108,19 +89,15 @@ h1 {
 
 /*________TIME GRAPH____________________________*/
 
-#timegraph{
-    width: 700px;
-    margin: auto;
-}
-
-#svg_graph{
+.time_graph{
+    
 }
 
 /*____________________________________*/
 
 
 .loader {
-  border: 12px solid #AEAEAE;
+  border: 12px solid #f3f3f3;
   border-radius: 50%;
   border-top: 12px solid #000000;
   width: 60px;
@@ -199,7 +176,7 @@ color: black;
     content: '';
     position: absolute;
     width: 6px;
-    background-color: #AEAEAE;
+    background-color: #F3F3F3;
     top: 0;
     bottom: 0;
     left: 50%;
@@ -208,9 +185,9 @@ color: black;
 
 /* Container around content */
 .container {
-    padding: 20px 40px;
+    padding: 10px 40px;
     position: relative;
-    background-color: transparent;
+    background-color: white;
     width: 400px;
 }
 
@@ -236,7 +213,7 @@ color: black;
     right: 30px;
     border: medium solid black;
     border-width: 10px 0 10px 10px;
-    border-color: transparent transparent transparent white;
+    border-color: transparent transparent transparent #F3F3F3;
 }
 
 /* Add arrows to the right container (pointing left) */
@@ -250,13 +227,13 @@ color: black;
     left: 30px;
     border: medium solid black;
     border-width: 10px 10px 10px 0;
-    border-color: transparent white transparent transparent;
+    border-color: transparent #F3F3F3 transparent transparent;
 }
 
 /* The actual content */
 .content {
     padding: 20px 30px;
-    background-color: white;
+    background-color: #F3F3F3;
     position: relative;
     border-radius: 6px;
 }

@@ -19,6 +19,10 @@ def search_app_current():
 def search_app_prot1():
     return search_controller.search_prot1_controller()
 
+@app.route("/prototype2/")
+def search_app_prot2():
+    return search_controller.search_prot2_controller()
+
 @werkzeug.serving.run_with_reloader
 def run_server():
     ws = gevent.wsgi.WSGIServer(listener=('0.0.0.0', 80),

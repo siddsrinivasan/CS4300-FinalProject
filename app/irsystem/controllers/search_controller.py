@@ -5,6 +5,7 @@ from app.irsystem.models.helpers import NumpyEncoder as NumpyEncoder
 from app.irsystem.models import search as search
 from app.irsystem.models import search_prot1 as search_prot1
 from app.irsystem.models import search_prot2 as search_prot2
+import json
 
 reload(sys)
 sys.setdefaultencoding('utf8')
@@ -14,8 +15,10 @@ net_id = "Edward Mei: ezm4, Evan Pike: dep78, Lucas Van Bramer: ljv32, Sidd Srin
 @irsystem.route('/', methods=['GET'])
 def search_current():
 	query = request.args.get('search')
+	sort_order = request.args.get('sort_order')
 	if not query:
 		b = []
+		array_json = []
 		output_message = ''
 	else:
 		change_month = {"01": "January", "02" :"February", "03" : "March", "04" : "April",
@@ -24,6 +27,8 @@ def search_current():
 		res= search.complete_search(query)
 
 		b= []
+		array_json = []
+		
 		for each_result in res:
 			length_card = len(each_result)
 			reddit_score = "NA"
@@ -42,14 +47,33 @@ def search_current():
 
 			b.append((date, headline, date_int, reddit_score, url))
 
-		b = sorted(b, key=lambda x: x[2], reverse = True)
+		if sort_order == "option1":
+			b = sorted(b, key=lambda x: x[2], reverse = True)
+		elif sort_order =="option2":
+			b = sorted(b, key=lambda x: x[2])
+		#otherwise just return the existing set because it will be sorted by relevance. 
+
+
+		#hopefully this creates a nice json
+		for item in b:
+			json_data = {}
+			json_data["date"] = str(item[0])
+			json_data["headline"] = str(item[1][0])		# this is weird 
+			json_data["date_int"] = str(item[2])
+			json_data["reddit_score"] = str(item[3])
+			json_data["url"] = str(item[4])
+			json_data = json.dumps(json_data, ensure_ascii = False)	
+			array_json.append(json_data);
+
+
+			print array_json
 
 		output_message = "Your search: " + query
 
 		# actual data format: list with tuples ("unique identifier", headline).
 		# Need to parse unique identifier and convert it to date.
 		# Need to group all events of the same date together for the timeline card.
-	return render_template('search.html', name=project_name, netid=net_id, output_message=output_message, data=b)
+	return render_template('search.html', name=project_name, netid=net_id, output_message=output_message, data=b, json = array_json)
 
 
 @irsystem.route('/prototype1/', methods=['GET'])

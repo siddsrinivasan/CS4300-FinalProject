@@ -104,7 +104,6 @@ h1 {
 .container_header{
     width: 100%;
 }
-/*____________________________________*/
 
 /*________TIME GRAPH____________________________*/
 
@@ -116,7 +115,7 @@ h1 {
 #svg_graph{
 }
 
-/*____________________________________*/
+/*_____________LOADER_______________________*/
 
 
 .loader {
@@ -195,6 +194,12 @@ color: black;
 }
 
 /* The actual timeline (the vertical ruler) */
+#timeline0{
+    display; none;
+}
+
+
+
 .timeline::after {
     content: '';
     position: absolute;

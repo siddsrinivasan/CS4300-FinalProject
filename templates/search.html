@@ -13,7 +13,7 @@
     <body>
         <form class="form-inline global-search" onsubmit= "preloader()">
 
-            <h1 id = "logo"> Informd</h1> <br style = "line-height: 25%">
+            <h1 id = "logo"> <a href="search.html" id="title_link"> Informd </a></h1> <br style = "line-height: 25%">
             <h2 id = "subtitle"> the evolution of news </h2>
             <br><br>
             <div class="form-group">
@@ -21,34 +21,37 @@
             </div>
             <button type="submit" class="btn btn-info" id = "search_button"> Search </button>
             <br> <br>   
-            <button id = "advanced_search" type="button" class="btn btn-info btn-sm">advanced search</button>
-            <br>
+            <button id = "advanced_search" type="button" class="btn btn-info btn-sm">Advanced Search</button>
+            <br><br>
 
 
             <div id = "advanced_search_div" style ="display:none">
                 <!-- Parameter Set for Sorting the Search Results -->
                 <fieldset class="form-group">
-                <legend>Sort Timeline Order by</legend>
+                <legend> Sort by: </legend>
                 <div class="form-check">
                   <label class="form-check-label">
-                    <input type="radio" class="form-check-input" name="sort_order" id="optionsRadios1" value="option1" checked> 
-                    <!-- By default this is set to reverse chronological -->
-                    Reverse Chronological
-                  </label>
+                        <input type="radio" class="form-check-input" name="sort_order" id="optionsRadios1" value="option1" checked> 
+                        <!-- By default this is set to reverse chronological -->
+                        Reverse Chronological
+                    <span class=checkmark></span>
+                    </label>
                 </div>
                 <br>
                 <div class="form-check">
-                <label class="form-check-label">
-                    <input type="radio" class="form-check-input" name="sort_order" id="optionsRadios2" value="option2">
-                    Chronological
-                  </label>
+                    <label class="form-check-label">
+                        <input type="radio" class="form-check-input" name="sort_order" id="optionsRadios2" value="option2">
+                        Chronological
+                        <span class=checkmark></span>
+                    </label>
                 </div>
                 <br>
-                <div class="form-check-label">
-                <label class="form-check-label">
-                    <input type="radio" class="form-check-input" name="sort_order" id="optionsRadios3" value="option3">
-                    Most Relevant --> Least Relevant 
-                  </label>
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input type="radio" class="form-check-input" name="sort_order" id="optionsRadios3" value="option3">
+                        Relevance 
+                        <span class=checkmark></span>
+                    </label>
                 </div>
                 </fieldset>
             </div>
@@ -62,13 +65,14 @@
 
         <div id = "all_results">    <!-- Used to contain all 
             the results so they are hidden with new search -->
-            <h3 id = "search_result" >{{output_message}}</h3>
+            <div id = "search_result" ><div id = "output_text"> <span> {{output_message}} </span></div></div>
             <div id= "timegraph"> 
                 <svg id = "svg_graph"></svg>
                 <br>
             </div>
 
 
+            {% if data %}
             <div class= "timeline" id ="timeline0">     <br>
                 {% for d in data %}
                     {% if data.index(d) % 2 != 0 %}
@@ -140,6 +144,7 @@
                 {% endfor %}
 
             </div>
+            {% endif %}
         </div>
         <br>
         <div id = "bottom_screen_footer" class="footer">

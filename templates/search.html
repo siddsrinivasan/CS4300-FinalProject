@@ -5,6 +5,10 @@
         <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
         <link rel="stylesheet" href="/static/main.css">
         </style>
+        <!-- Autocomplete libraries -->
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+    <link href=http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css 
         <!-- Script for the Visual of the Timeline -->
         <script src="https://d3js.org/d3.v4.min.js"></script>
         <!-- Fonts StyleSheet used to load google fonts -->
@@ -17,13 +21,12 @@
             <h2 id = "subtitle"> the evolution of news </h2>
             <br><br>
             <div class="form-group">
-                <input id="input" type="text" name="search" class="form-control" placeholder="Tell me about: Israeli-Palestine Conflict">
+                <input id="input" type="text" name="search" class="form-control" label "Tell me about: Israeli-Palestine Conflict">
             </div>
             <button type="submit" class="btn btn-info" id = "search_button"> Search </button>
             <br> <br>   
             <button id = "advanced_search" type="button" class="btn btn-info btn-sm">Advanced Search</button>
             <br><br>
-
 
             <div id = "advanced_search_div" style ="display:none">
                 <!-- Parameter Set for Sorting the Search Results -->
@@ -54,7 +57,16 @@
                     </label>
                 </div>
                 </fieldset>
+                <br>
+                <br>
+
+                <div class="""slidecontainer">
+              <input type="range" name = "precision_recall" min="1" max="100" value="100" class="slider" id="myRange">
+                <p>Depth Percentage: <span id="demo"></span>   % </p>
+             </div>
             </div>
+
+
         </form>
 
 
@@ -70,7 +82,6 @@
                 <svg id = "svg_graph"></svg>
                 <br>
             </div>
-
 
             {% if data %}
             <div class= "timeline" id ="timeline0">     <br>
@@ -178,7 +189,21 @@
                 advanced_search_div.style.display = "block";
             }
         });
+
+        // auto complete
+        $( "#input" ).autocomplete({
+              source: [ "Israeli-Palestine Conflict", "Donald Trump", "Barack Obama", "Arab Spring", "John Greenwood Hate Crime"]
+            });
             
+        // SLIDER
+        var slider = document.getElementById("myRange");
+        var output = document.getElementById("demo");
+        output.innerHTML = slider.value;
+
+        slider.oninput = function() {
+          output.innerHTML = this.value;
+        }
+
         function plotGraph(xdata, ydata){
             // console.log(xdata, ydata);
 

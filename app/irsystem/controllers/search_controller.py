@@ -22,6 +22,7 @@ def search_current():
 
 	if not query:
 		b = []
+		c = []
 		array_json = []
 		output_message = ''
 	else:
@@ -31,15 +32,18 @@ def search_current():
 		res= search.complete_search(query)
 
 		b= []
+		c = []
 		array_json = []
 		
 		for each_result in res:
 			length_card = len(each_result)
 			reddit_score = "NA"
+			reddit_score_int = 0
 			url = "nope"
 			#account for no reddit score
 			if length_card > 2:
 				reddit_score = str(each_result[2])
+				reddit_score_int = int(each_result[2])
 				url = str(each_result[4])
 			year = each_result[0][:4]
 			day  = each_result[0][6:8]
@@ -49,7 +53,7 @@ def search_current():
 			headline=['a']
 			headline[0]= each_result[1]
 
-			b.append((date, headline, date_int, reddit_score, url))
+			b.append((date, headline, date_int, reddit_score, url, reddit_score_int))
 
 		# change the number of documents returned based on user input P/R 
 		# default score of 100 to return all returned documents.
@@ -62,6 +66,9 @@ def search_current():
 			b = sorted(b, key=lambda x: x[2], reverse = True)
 		elif sort_order =="option2":
 			b = sorted(b, key=lambda x: x[2])
+		elif sort_order == "option3":
+			b = sorted(b, key=lambda x: x[5], reverse = True)
+			c = sorted(b, key=lambda x: x[2], reverse = True)
 		#otherwise just return the existing set because it will be sorted by relevance. 
 
 
@@ -84,7 +91,7 @@ def search_current():
 		# actual data format: list with tuples ("unique identifier", headline).
 		# Need to parse unique identifier and convert it to date.
 		# Need to group all events of the same date together for the timeline card.
-	return render_template('search.html', name=project_name, netid=net_id, output_message=output_message, data=b, json = array_json)
+	return render_template('search.html', name=project_name, netid=net_id, output_message=output_message, data=b, json = array_json, relevance_data=c)
 
 
 @irsystem.route('/prototype1/', methods=['GET'])

@@ -254,7 +254,8 @@
             //     .style("fill", "black");    // need to check that this color works.
             }
 
-            {% if data %}
+
+            {% if data and not relevance_data %}
 
                 var dates_arr = [];
                 var scores_arr = [];
@@ -283,6 +284,37 @@
                     }
                 }
                 plotGraph(dates_final, scores_final);
+
+            {% elif data and relevance_data %}
+
+                var dates_arr = [];
+                var scores_arr = [];
+                {% for d in relevance_data %}
+                    dates_arr.push(String({{(d[2])}}));
+
+                    {% if d[3] == "NA" %}
+                        scores_arr.push(String(100));
+                    {% else %}
+                        scores_arr.push(String({{(d[3])}}));
+                    {% endif %}
+
+                 {% endfor %}
+
+                var dates_final = [];
+                var scores_final = [];
+
+                for (i = 0; i < dates_arr.length; i++) { 
+                    if (scores_arr[i] == "NA"){
+                        scores_final.push(Number(100));
+                        dates_final.push(Number(dates_arr[i]));
+                    }
+                    else{
+                        scores_final.push(Number(scores_arr[i]));
+                        dates_final.push(Number(dates_arr[i]));
+                    }
+                }
+                plotGraph(dates_final, scores_final);
+
             {% endif %}
     </script>
 </html>

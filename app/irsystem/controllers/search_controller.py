@@ -16,6 +16,10 @@ net_id = "Edward Mei: ezm4, Evan Pike: dep78, Lucas Van Bramer: ljv32, Sidd Srin
 def search_current():
 	query = request.args.get('search')
 	sort_order = request.args.get('sort_order')
+	precision_recall_percent = request.args.get('precision_recall')
+	print ("DDDDDDDDDDDDDDDDDDDDD")
+	print (precision_recall_percent)
+
 	if not query:
 		b = []
 		array_json = []
@@ -46,6 +50,13 @@ def search_current():
 			headline[0]= each_result[1]
 
 			b.append((date, headline, date_int, reddit_score, url))
+
+		# change the number of documents returned based on user input P/R 
+		# default score of 100 to return all returned documents.
+		if (precision_recall_percent < 100):
+			num_docs = len(b)		# need to check this 
+			num_docs_returned = max((num_docs * (precision_recall_percent / 100.0)), 2)
+			b = b[:num_docs_returned] 
 
 		if sort_order == "option1":
 			b = sorted(b, key=lambda x: x[2], reverse = True)

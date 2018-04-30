@@ -46,8 +46,8 @@ def closest_words(word_in, words_compressed, word_to_ix, index_to_word, k=3, cut
 
 def expand_query(query_tokens_ix, query_tokens_term, reu_vocab_to_ix):
     expanded_query = copy.deepcopy(query_tokens_ix)
-    with open(os.path.join(BASE, 'u.npy')) as u:
-        with open(os.path.join(BASE, 'v_trans.npy')) as v_trans:
+    with open(os.path.join(BASE, 'u.npy'), 'rb') as u:
+        with open(os.path.join(BASE, 'v_trans.npy'), 'rb') as v_trans:
             words_compressed = np.load(u)
             docs_compressed = np.load(v_trans)
             words_compressed = normalize(words_compressed, axis = 1)

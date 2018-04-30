@@ -15,24 +15,25 @@
         <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:700|Quicksand|Quicksand:700" rel="stylesheet">
 
         <!-- Range Slider Libraries -->
-<!--         <link href= "http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-        <link href= "http://code.jquery.com/resources/demos/style.css">
+       <!--  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <link rel="stylesheet" href="/resources/demos/style.css">
         <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
+
 
     </head>
     <body id = "main_body">
         <form class="form-inline global-search" onsubmit= "preloader()">
 
-            <h1 id = "logo"> <a href="search.html" id="title_link"> Informd </a></h1> <br style = "line-height: 25%">
+            <h1 id = "logo"> <a href="informd.info" id="title_link"> Informd </a></h1> <br style = "line-height: 25%">
             <h2 id = "subtitle"> the evolution of news </h2>
             <br><br>
             <div class="form-group">
-                <input id="input" type="text" name="search" class="form-control" label "Tell me about: Israeli-Palestine Conflict">
+                <input id="input" type="text" name="search" class="form-control" label="Tell me about: Israeli-Palestine Conflict">
             </div>
             <button type="submit" class="btn btn-info" id = "search_button"> Search </button>
             <br> <br>   
-            <button id = "advanced_search" type="button" class="btn btn-sm" style="background-color: transparent">Advanced Search </button>
+            <button id = "advanced_search" type="button" class="btn btn-sm" style="background-color: transparent"> ⇓ Advanced Search ⇓ </button>
             <br><br>
 
             <div id = "advanced_search_div" style ="display:none">
@@ -67,18 +68,22 @@
                 <br>
                 <br>
 
-                <div class="""slidecontainer">
+                <div class="slidecontainer">
                   <input type="range" name = "precision_recall" min="1" max="100" value="100.0" class="slider" id="myRange">
-                    <p> <span id="demo"></span>   % </p>
+                    <p> <div id="slider1text"><span id="demo"></span> </div>  % </p>
                 </div>
-                <br>
-                <br>
-                <p>
-                  <label for="amount">Price range:</label>
-                  <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
+                <br><br>
+
+
+                <!-- <p>
+                    <label for="amount">Price range:</label>
+                    <input type="text" id="amount" style="border:0; color:#f6931f; font-weight:bold;"></input>
                 </p>
-                <br>
-                <div id="slider-range"></div>
+ 
+                <div id="slider-range"></div> -->
+
+
+
             </div>
 
 
@@ -87,7 +92,7 @@
 
         <div id="loading" style="display: none;">
             <div class = "loader"> </div>
-            <div id="search_message"> <p id="p2"> {{searching_message}} </p> </div>
+            <div id="search_message"> <p id="p2"> <br>{{searching_message}} </p> </div>
         </div>
 
         <div id = "all_results">    <!-- Used to contain all 
@@ -111,7 +116,9 @@
                                                 <div class="score"> 
                                                     <p id= heat>  {{d[3]}} </p>
                                                     <img id="icon" src="static/images/light.png">
+                                                    
                                                 </div>
+                                                
                                             </div>
                                             <br><br>
                                             <div id = "p2"> {{x}} </div>
@@ -119,11 +126,16 @@
 
                                         <div class="container_header">
                                                 <div class="date"> <p id = "date1"> {{d[0]}} <p> </div> 
-                                                <div class="score"> 
+                                                <div class="score_l"> 
                                                     <p id= heat>  {{d[3]}} </p>
                                                     <img id="icon2" src="static/images/reddit.png">
                                                     <img id="icon" src="static/images/light.png">
+                                                    
                                                 </div>
+
+                                                <div class = "shown_score_l"> Upvotes </div>
+
+                                                
                                             </div>
                                             <br><br>
 
@@ -140,10 +152,13 @@
                                         {% if d[4] == "nope" %}
                                             <div class="container_header">
                                                 <div class="date"> <p id = "date1"> {{d[0]}} <p> </div> 
-                                                <div class="score"> 
+                                                <div class="scores"> 
                                                     <p id= heat>  {{d[3]}} </p>
                                                     <img id="icon" src="static/images/light.png">
+                                    
                                                 </div>
+                                        
+                                                
                                             </div>
                                             <br><br>
 
@@ -152,11 +167,16 @@
 
                                         <div class="container_header">
                                                 <div class="date"> <p id = "date1"> {{d[0]}} <p> </div> 
-                                                <div class="score"> 
+                                                <div class="score_r"> 
                                                     <p id= heat>  {{d[3]}} </p>
                                                     <img id="icon2" src="static/images/reddit.png">
                                                     <img id="icon" src="static/images/light.png">
+                                                    
                                                 </div>
+
+                                                <div class = "shown_score_r"> Upvotes </div>
+                                                
+                                                
                                             </div>
                                             <br><br>
 
@@ -166,6 +186,8 @@
                                 {% endfor %}
                             </div>
                         </div>
+
+
                     {% endif %}
                 {% endfor %}
 
@@ -212,9 +234,15 @@
 
         // auto complete
         $( "#input" ).autocomplete({
-            source: {{auto_complete | tojson}}
-              // source: [ "Israeli-Palestine Conflict", "Donald Trump", "Barack Obama", "Arab Spring", "John Greenwood Hate Crime"]
-            });
+            source: function(req, responseFn) {
+            var re = $.ui.autocomplete.escapeRegex(req.term);
+            var matcher = new RegExp( "^" + re, "i" );
+            var a = $.grep({{auto_complete | tojson}}, function(item,index){
+                return matcher.test(item);
+                });
+            responseFn( a );
+            }
+        });
             
         // SLIDER
         var slider = document.getElementById("myRange");
@@ -356,5 +384,21 @@
                 plotGraph(dates_final, scores_final);
 
             {% endif %}
+
+
+
+            // $( function() {
+            //     $( "#slider-range" ).slider({
+            //       range: true,
+            //       min: 0,
+            //       max: 500,
+            //       values: [ 75, 300 ],
+            //       slide: function( event, ui ) {
+            //         $( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
+            //       }
+            //     });
+            //     $( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) +
+            //       " - $" + $( "#slider-range" ).slider( "values", 1 ) );
+            //     } );
     </script>
 </html>

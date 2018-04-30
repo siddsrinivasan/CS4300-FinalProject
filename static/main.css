@@ -98,7 +98,7 @@ a#title_link:active {
 
 
 
-/*________WITH REDDIT SCORE____________________________*/
+/*________SCORE+DATE____________________________*/
 
 #date1 {
     float: left;
@@ -129,6 +129,60 @@ a#title_link:active {
     height:20px;
     float: left;
 }
+
+.score_r{
+    width:50%;
+    height:20px;
+    float: left;
+    cursor:pointer;
+}
+
+.shown_score_r{
+    display:none;
+    position:relative;
+    max-width: 100px;
+    background-color: #EEEEEE;
+    font-family:Quicksand;
+    font-size: 12px
+}
+.score_r:hover + .shown_score_r{
+    display:block;
+    left:170px;
+    top:20px;
+    text-align:center;
+    padding-top:5px;
+    padding-bottom:2px;
+
+}
+
+/*------*/
+
+.score_l{
+    width:50%;
+    height:20px;
+    float: left;
+    cursor:pointer;
+    
+}
+
+.shown_score_l{
+    display:none;
+    position:relative;
+    max-width: 100px;
+    background-color: #EEEEEE;
+    font-family:Quicksand;
+    font-size: 12px;
+}
+.score_l:hover + .shown_score_l{
+    display:block;
+    left:170px;
+    top:20px;
+    text-align:center;
+    padding-top:5px;
+    padding-bottom:2px;
+
+}
+
 
 #icon2{
     width: 25px;
@@ -186,6 +240,7 @@ a#title_link:active {
 
 #search_message{
     margin: auto;
+    text-align: center;
 }
 
 #loading{
@@ -195,11 +250,16 @@ a#title_link:active {
 
 /*_____________ADVANCED SEARCH______________________*/
 #advanced_search_div{
-    font-family: Quicksand
+    font-family: futura; 
+}
+
+#advanced_search_div legend{
+    font-size:14px; 
 }
 
 .form-check{
     padding-bottom:3px;
+    font-size:10px;
 }
 
 .form-group{
@@ -209,6 +269,11 @@ a#title_link:active {
 
 .form-check-input{
     margin-left:0 auto:;
+}
+
+.form-check-label{
+    font-weight:80;
+    font-size:10px;
 }
 
 
@@ -306,7 +371,11 @@ a#title_link:active {
 /*__________________INPUT SLIDER __________________*/
 
 .slidecontainer {
-    width: 100%;
+    width: 280px;
+}
+
+#slider1text{
+    padding-top: 3px;
 }
 
 .slider {
@@ -408,6 +477,7 @@ color: black;
     bottom: 0;
     left: 50%;
     margin-left: -3px;
+    opacity:0.6;
 }
 
 /* Container around content */

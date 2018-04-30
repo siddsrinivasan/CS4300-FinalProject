@@ -6,19 +6,31 @@ from app.irsystem.models import search as search
 from app.irsystem.models import search_prot1 as search_prot1
 from app.irsystem.models import search_prot2 as search_prot2
 import json
+import os
+import pickle
+
+
+# Change this parameter if the file path is different
+
+BASE = "app/irsystem/controllers"
+auto_complete_list= pickle.load(open(os.path.join(BASE, 'autocomplete_bigram_vocab.pickle'), 'rb'))
 
 reload(sys)
 sys.setdefaultencoding('utf8')
 project_name = "Informd"
 net_id = "Edward Mei: ezm4, Evan Pike: dep78, Lucas Van Bramer: ljv32, Sidd Srinivasan: ss2969, Wes Gurnee: rwg97"
+searching_message = None 
 
 @irsystem.route('/', methods=['GET'])
 def search_current():
+	searching_message = "Gathering Query"
 	query = request.args.get('search')
 	sort_order = request.args.get('sort_order')
 	precision_recall_percent = request.args.get('precision_recall')
-	print ("DDDDDDDDDDDDDDDDDDDDD")
-	print (precision_recall_percent)
+	try:
+		precision_recall_percent = int(precision_recall_percent)
+	except:
+		pass
 
 	if not query:
 		b = []
@@ -57,9 +69,10 @@ def search_current():
 
 		# change the number of documents returned based on user input P/R 
 		# default score of 100 to return all returned documents.
-		if (precision_recall_percent < 100):
+		if (precision_recall_percent < 100.0):
 			num_docs = len(b)		# need to check this 
-			num_docs_returned = max((num_docs * (precision_recall_percent / 100.0)), 2)
+			num_docs_returned = max(int((num_docs * (precision_recall_percent / 100.0))), 2)
+
 			b = b[:num_docs_returned] 
 
 		if sort_order == "option1":
@@ -70,7 +83,6 @@ def search_current():
 			b = sorted(b, key=lambda x: x[5], reverse = True)
 			c = sorted(b, key=lambda x: x[2], reverse = True)
 		#otherwise just return the existing set because it will be sorted by relevance. 
-
 
 		#hopefully this creates a nice json
 		for item in b:
@@ -83,15 +95,14 @@ def search_current():
 			json_data = json.dumps(json_data, ensure_ascii = False)	
 			array_json.append(json_data);
 
-
-			print array_json
-
 		output_message = "Your search: " + query
+		searching_message = ""
 
 		# actual data format: list with tuples ("unique identifier", headline).
 		# Need to parse unique identifier and convert it to date.
 		# Need to group all events of the same date together for the timeline card.
-	return render_template('search.html', name=project_name, netid=net_id, output_message=output_message, data=b, json = array_json, relevance_data=c)
+	return render_template('search.html', name=project_name, netid=net_id, output_message=output_message, data=b, json = array_json, relevance_data=c,
+	 auto_complete = auto_complete_list, searching_message = searching_message)
 
 
 @irsystem.route('/prototype1/', methods=['GET'])

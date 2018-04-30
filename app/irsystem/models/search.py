@@ -4,6 +4,7 @@ import sys
 import json
 import string
 import pandas
+import pickle
 import numpy as np
 from collections import defaultdict
 from query_expansion import expand_query
@@ -141,7 +142,7 @@ def complete_search(query):
         id_to_reu= pandas.read_csv(f3)
         print >> sys.stderr, "loaded f3"
         f3.close()
-    red_text = pickle.load(open('red_ix_to_text.p', 'rb'))
+    red_text = pickle.load(open(os.path.join(BASE, 'red_ix_to_text.p'), 'rb'))
     reuters_ids, reddit_ixs = find_coherent_set(id_to_reu, red_text, reuters_ids, reddit_ixs)
 
     print >> sys.stderr, "size of set: " + str(len(reuters_ids))

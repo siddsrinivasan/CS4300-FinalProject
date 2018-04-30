@@ -239,7 +239,8 @@ a#title_link:active {
 
 #search_message{   
     height:20%;
-    left:41%;
+    width:300px;
+    margin:auto;
     top:-50px;
     position:relative;
 

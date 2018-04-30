@@ -33,7 +33,7 @@
             </div>
             <button type="submit" class="btn btn-info" id = "search_button"> Search </button>
             <br> <br>   
-            <button id = "advanced_search" type="button" class="btn btn-sm" style="background-color: transparent"> ⇓ Advanced Search ⇓ </button>
+            <button id = "advanced_search" type="button" class="btn btn-sm" style="background-color: transparent; font-family:Futura"> ⇓ Advanced Search ⇓ </button>
             <br><br>
 
             <div id = "advanced_search_div" style ="display:none">
@@ -152,7 +152,7 @@
                                                     
                                                 </div>
 
-                                                <div class = "shown_score_l"> Upvotes </div>
+                                                <div class = "shown_score_l"> Reddit Upvotes </div>
 
                                                 
                                             </div>
@@ -193,7 +193,7 @@
                                                     
                                                 </div>
 
-                                                <div class = "shown_score_r"> Upvotes </div>
+                                                <div class = "shown_score_r"> Reddit Upvotes </div>
                                                 
                                                 
                                             </div>
@@ -235,6 +235,8 @@
             timeline.style.display = "block";
             advanced_search = document.getElementById("advanced_search");
             advanced_search.disabled = true;
+            advanced_search_div = document.getElementById("advanced_search_div");
+            advanced_search_div.style.display = "none";
         }
 
         // Opens advanced search menu on click.
@@ -302,7 +304,7 @@
             
             var svg = d3.select("#svg_graph")      // will need to put the svg within a div.
             .attr("height", height + 2*padding).attr("width", width + 2* padding)
-            .append("g");
+            .append("g"); 
 
             // axis
             var xScale = d3.scaleLinear().domain(d3.extent(xdata))   // change from d.date to date int.
@@ -331,6 +333,8 @@
                 .style("stroke", "#000000")
                 .style("fill", "none");
 
+
+            var tick_fonts = d3.select("body").selectAll("text").style("font-family", "Futura");
             // svg.append("circle")
             //     .attr("cx", function(d) { return xScale(d.date); })       // change 
             //     .attr("cy", function(d) { return yScale(d.reddit_score); })      // change

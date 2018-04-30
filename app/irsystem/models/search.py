@@ -1,13 +1,14 @@
 import gc
 import os
+import sys
 import json
+import string
 import pandas
 import numpy as np
-import sys
-import string
 from collections import defaultdict
-from scipy.sparse import csr_matrix, load_npz
 from query_expansion import expand_query
+from search_helper import find_coherent_set
+from scipy.sparse import csr_matrix, load_npz
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 reload(sys)
@@ -133,6 +134,16 @@ def complete_search(query):
     print >> sys.stderr, "complete search start"
     reddit_ixs = return_red_ixs(query, 'reddit', t=3)
     reuters_ids = set(return_reu_ids(query, 'reuters', t=3))
+
+    #Relevance bootstrap with SVD
+    with open(os.path.join(BASE, os.path.join('reuters', 'id_to_reu_headline.csv'))) as f3:
+        print >> sys.stderr, "loading f3"
+        id_to_reu= pandas.read_csv(f3)
+        print >> sys.stderr, "loaded f3"
+        f3.close()
+    red_text = pickle.load(open('reddit/red_ix_to_text.p', 'rb'))
+    reuters_ids, reddit_ixs = find_coherent_set(id_to_reu, red_text, reuters_ids, reddit_ixs)
+
     print >> sys.stderr, "size of set: " + str(len(reuters_ids))
     reu_id_dict, reu_id_set = reu_id_decomp(reuters_ids)
     print >> sys.stderr, "decomped"
@@ -175,18 +186,12 @@ def complete_search(query):
             f2.close()
             #Iterate over reuter ixs not covered through reddit (i.e. small cards)
             for reu_id in reu_id_set:
-                cossim = reu_id_dict[reu_id]
-                if cossim > 5.5:
-                    date = str(reu_id)[:8]
-                    card = [date, reu_id]
-                    cards.append(card)
+                date = str(reu_id)[:8]
+                card = [date, reu_id]
+                cards.append(card)
     gc.collect()
 
-    with open(os.path.join(BASE, os.path.join('reuters', 'id_to_reu_headline.csv'))) as f3:
-        print >> sys.stderr, "loading f3"
-        id_to_reu= pandas.read_csv(f3)
-        print >> sys.stderr, "loaded f3"
-        f3.close()
+
     gc.collect()
     id_ind= pandas.Index(id_to_reu["id"])
     head_ind= pandas.Index(id_to_reu["headline"])
@@ -203,9 +208,9 @@ def complete_search(query):
             each_card[5]= list_headlines
         print >> sys.stderr, each_card
     return cards
-#
-# if __name__ == '__main__':
-#     q = 'russia election hacking'
-#     docs = complete_search(q)
-#     for doc in docs:
-#         print(doc)
+
+if __name__ == '__main__':
+    q = 'russia election hacking'
+    docs = complete_search(q)
+    for doc in docs:
+        print(doc)

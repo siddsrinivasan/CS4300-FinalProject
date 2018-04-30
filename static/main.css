@@ -4,8 +4,8 @@
             rgba(255, 255, 255, 0.7),
             rgba(255, 255, 255, 0.7)),
             url("images/background.jpg");
-              /*url("http://lorempixel.com/400/200");*/
-/*    background-image: url("images/background.jpg");*/
+                /*url("images/search_image.gif");*/
+/*    background-image: url("images/search_image.gif");*/
     background-size: 100% auto;
     background-repeat: repeat-y;
     opacity: 20%;
@@ -183,7 +183,6 @@ a#title_link:active {
 
 }
 
-
 #icon2{
     width: 25px;
     height: 20px;
@@ -238,13 +237,21 @@ a#title_link:active {
   100% { transform: rotate(360deg); }
 }
 
-#search_message{
-    margin: auto;
-    text-align: center;
+#search_message{   
+    height:20%;
+    left:41%;
+    position:relative;
+
 }
 
 #loading{
-    margin: auto;
+    margin:auto;
+    width:100%;
+}
+
+#gif{
+    width:300px;
+    height:150px;
 }
 
 
@@ -412,6 +419,13 @@ a#title_link:active {
     cursor: pointer;
 }
 
+#slider_labels{
+    font-family: Quicksand;
+    font-size: 11px;
+    color: grey;
+    font-weight: light;
+
+}
 
 /*____________________________________*/
 

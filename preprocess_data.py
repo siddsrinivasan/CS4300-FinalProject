@@ -5,6 +5,7 @@ import pickle
 import numpy as np
 import pandas as pd
 from collections import defaultdict
+from scipy.sparse import csr_matrix, load_npz
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 """NOTE: this file contains a lot of random stuff from attempts to vectorize
@@ -187,6 +188,58 @@ def custom_tfidf():
         json.dump(word_to_ix, f)
     with open('doc_freq.json', 'w') as f:
         json.dump(doc_freq, f)
+        
+        
+def generarte_autocomplete_vocab():
+
+    with open("vocab_to_ix.json", 'r') as f:
+        data = json.load(f)
+    vocab = [str(key) for key, val in data.iteritems()]
+    f.close()
+    
+    with open('tfidf_mat.npz', 'r') as f1:
+        tfidf_mat= load_npz(f1)
+        co_occurence_mat = (tfidf_mat.T)*tfidf_mat
+    f1.close()
+    
+    with open('tfidf_mat.npz', 'r') as f1:
+        with open("ix_to_vocab.json", 'r') as f2:
+            tfidf_mat= load_npz(f1)
+            ix_to_vocab = json.load(f2)
+            sum_arr = csr_matrix.sum(tfidf_mat, axis=0)
+            x = np.argsort(sum_arr)
+            words_arr = []
+            for ix in range(116754):
+                val = x[0, ix]
+                word = ix_to_vocab[str(val)]
+                words_arr.append(word.encode("utf8"))
+    f1.close()
+    f2.close()
+    
+    low_bound = len(words_arr) - 1000
+    word_refined = words_arr[low_bound:]
+    no_ints = [word for word in word_refined if not word.isdigit()]
+    
+    with open("vocab_to_ix.json", 'r') as f:
+        with open("ix_to_vocab.json", 'r') as f2:
+            ix_to_vocab = json.load(f2)
+            vocab_to_ix = json.load(f)
+            bigrams = []
+            for word in no_ints:
+                ix = vocab_to_ix[word]
+                sorted_row = np.argsort(co_occurence_mat[ix, :].toarray()[0])[::-1]
+                #print(sorted_row)
+                #First index is the same word, so take the second and third word
+                ix1, ix2 = sorted_row[1], sorted_row[2]
+                bigram_1 = word.encode("utf8") + " " + ix_to_vocab[str(ix1)].encode("utf8")
+                bigram_2 = word.encode("utf8") + " " + ix_to_vocab[str(ix2)].encode("utf8")
+                bigrams.append(bigram_1)
+                bigrams.append(bigram_2)
+    f.close()
+    f2.close()
+    
+    with open("autocomplete_bigram_vocab.pickle", "wb") as outfile:
+        pickle.dump(bigrams, outfile)
 
 if __name__ == '__main__':
-    vectorize_reddit()
+    generarte_autocomplete_vocab()

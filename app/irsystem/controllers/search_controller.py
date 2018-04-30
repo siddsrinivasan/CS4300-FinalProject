@@ -56,9 +56,10 @@ def search_current():
 			length_card = len(each_result)
 			reddit_score = "NA"
 			reddit_score_int = 0
+			coherence_score = each_result[-1]
 			url = "nope"
 			#account for no reddit score
-			if length_card > 2:
+			if length_card > 3:
 				reddit_score = str(each_result[2])
 				reddit_score_int = int(each_result[2])
 				url = str(each_result[4])
@@ -70,7 +71,7 @@ def search_current():
 			headline=['a']
 			headline[0]= each_result[1]
 
-			b.append((date, headline, date_int, reddit_score, url, reddit_score_int))
+			b.append((date, headline, date_int, reddit_score, url, reddit_score_int, coherence_score))
 
 
 		# remove docs outside the date range
@@ -92,21 +93,9 @@ def search_current():
 			b = sorted(b, key=lambda x: x[2], reverse = True)
 		elif sort_order =="option2":
 			b = sorted(b, key=lambda x: x[2])
-		elif sort_order == "option3":
-			b = sorted(b, key=lambda x: x[5], reverse = True)
+		elif sort_order == "option3": # since the docs are returned in order, do nothing.
+			# b = sorted(b, key=lambda x: x[5], reverse = True)
 			c = sorted(b, key=lambda x: x[2], reverse = True)
-		#otherwise just return the existing set because it will be sorted by relevance. 
-
-		#hopefully this creates a nice json
-		for item in b:
-			json_data = {}
-			json_data["date"] = str(item[0])
-			json_data["headline"] = str(item[1][0])		# this is weird 
-			json_data["date_int"] = str(item[2])
-			json_data["reddit_score"] = str(item[3])
-			json_data["url"] = str(item[4])
-			json_data = json.dumps(json_data, ensure_ascii = False)	
-			array_json.append(json_data);
 
 		output_message = "Your search: " + query
 		searching_message = ""

@@ -239,7 +239,9 @@ a#title_link:active {
 
 #search_message{   
     height:20%;
-    left:41%;
+    width:300px;
+    margin:auto;
+    top:-50px;
     position:relative;
 
 }
@@ -251,7 +253,7 @@ a#title_link:active {
 
 #gif{
     width:300px;
-    height:150px;
+    height:200px;
 }
 
 

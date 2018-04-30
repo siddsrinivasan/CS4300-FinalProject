@@ -25,8 +25,8 @@ def closest_docs(index_in, docs_compressed, total_text_to_ix_or_id, max_return=3
 
 
 def find_coherent_set(df, red_text, reuters_ids, reddit_ixs):
-    reu_trim = filter_by_tfidf_score(reuters_ids, .3 , 500)
-    red_trim_dirty = filter_by_tfidf_score(reddit_ixs, .3 , 100)
+    reu_trim = filter_by_tfidf_score(reuters_ids, .2 , 500)
+    red_trim_dirty = filter_by_tfidf_score(reddit_ixs, .2 , 100)
     red_trim = [rt for rt in red_trim_dirty if len(red_text.get(rt[1], '')) > 4]
 
     if len(reu_trim) < 3 or len(red_trim) < 1:
@@ -50,8 +50,8 @@ def find_coherent_set(df, red_text, reuters_ids, reddit_ixs):
 
     vectorizer = TfidfVectorizer(stop_words = 'english', min_df = 3)
     tfidf_mat = vectorizer.fit_transform(total_text).transpose()
-
-    words_compressed, _, docs_compressed = svds(tfidf_mat, k=40)
+    print(tfidf_mat.shape)
+    words_compressed, _, docs_compressed = svds(tfidf_mat, k=min(min(tfidf_mat.shape)-1, 40))
     docs_compressed = docs_compressed.transpose()
     docs_compressed = normalize(docs_compressed, axis = 1)
 

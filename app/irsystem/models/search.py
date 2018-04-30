@@ -180,7 +180,7 @@ def complete_search(query):
                     continue
                 tup_ixs = set([date.encode("utf8") for date in tup_ixs])
                 inter = reu_id_set.intersection(tup_ixs)
-                card = [reddate.encode("utf8"), tup[1].encode("utf8"), tup[2], tup[3], tup[4].encode("utf8"), inter, val]
+                card = [reddate.encode("utf8"), tup[1].encode("utf8"), tup[2], tup[3], tup[4].encode("utf8"), inter, round(val,2)]
                 reu_id_set -= set(tup_ixs)
                 cards.append(card)
             f1.close()
@@ -188,7 +188,7 @@ def complete_search(query):
             #Iterate over reuter ixs not covered through reddit (i.e. small cards)
             for reu_id in reu_id_set:
                 date = str(reu_id)[:8]
-                card = [date, reu_id, reu_id_dict[reu_id]]
+                card = [date, reu_id, round(reu_id_dict[reu_id], 2)]
                 cards.append(card)
     gc.collect()
 

@@ -13,8 +13,15 @@
         <script src="https://d3js.org/d3.v4.min.js"></script>
         <!-- Fonts StyleSheet used to load google fonts -->
         <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:700|Quicksand|Quicksand:700" rel="stylesheet">
+
+        <!-- Range Slider Libraries -->
+<!--         <link href= "http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <link href= "http://code.jquery.com/resources/demos/style.css">
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
+
     </head>
-    <body>
+    <body id = "main_body">
         <form class="form-inline global-search" onsubmit= "preloader()">
 
             <h1 id = "logo"> <a href="search.html" id="title_link"> Informd </a></h1> <br style = "line-height: 25%">
@@ -25,7 +32,7 @@
             </div>
             <button type="submit" class="btn btn-info" id = "search_button"> Search </button>
             <br> <br>   
-            <button id = "advanced_search" type="button" class="btn btn-info btn-sm">Advanced Search</button>
+            <button id = "advanced_search" type="button" class="btn btn-sm" style="background-color: transparent">Advanced Search </button>
             <br><br>
 
             <div id = "advanced_search_div" style ="display:none">
@@ -61,18 +68,26 @@
                 <br>
 
                 <div class="""slidecontainer">
-              <input type="range" name = "precision_recall" min="1" max="100" value="100" class="slider" id="myRange">
-                <p>Depth Percentage: <span id="demo"></span>   % </p>
-             </div>
+                  <input type="range" name = "precision_recall" min="1" max="100" value="100.0" class="slider" id="myRange">
+                    <p> <span id="demo"></span>   % </p>
+                </div>
+                <br>
+                <br>
+                <p>
+                  <label for="amount">Price range:</label>
+                  <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
+                </p>
+                <br>
+                <div id="slider-range"></div>
             </div>
 
 
         </form>
 
 
-
         <div id="loading" style="display: none;">
             <div class = "loader"> </div>
+            <div id="search_message"> <p id="p2"> {{searching_message}} </p> </div>
         </div>
 
         <div id = "all_results">    <!-- Used to contain all 
@@ -177,6 +192,8 @@
             timeline = document.getElementById("timeline0");
             console.log(timeline);
             timeline.style.display = "block";
+            advanced_search = document.getElementById("advanced_search");
+            advanced_search.disabled = true;
         }
 
         // Opens advanced search menu on click.
@@ -190,9 +207,13 @@
             }
         });
 
+
+
+
         // auto complete
         $( "#input" ).autocomplete({
-              source: [ "Israeli-Palestine Conflict", "Donald Trump", "Barack Obama", "Arab Spring", "John Greenwood Hate Crime"]
+            source: {{auto_complete | tojson}}
+              // source: [ "Israeli-Palestine Conflict", "Donald Trump", "Barack Obama", "Arab Spring", "John Greenwood Hate Crime"]
             });
             
         // SLIDER
@@ -203,6 +224,22 @@
         slider.oninput = function() {
           output.innerHTML = this.value;
         }
+
+
+        // RANGE SLIDER
+        $( function() {
+            $( "#slider-range" ).slider({
+              range: true,
+              min: 0,
+              max: 500,
+              values: [75, 300],
+              slide: function( event, ui ) {
+                $( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
+              }
+            });
+            $( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) +
+              " - $" + $( "#slider-range" ).slider( "values", 1 ) );
+        } );
 
         function plotGraph(xdata, ydata){
             // console.log(xdata, ydata);
@@ -256,6 +293,9 @@
 
 
             {% if data and not relevance_data %}
+
+                advanced_search = document.getElementById("advanced_search");
+                advanced_search.disabled = false;
 
                 var dates_arr = [];
                 var scores_arr = [];

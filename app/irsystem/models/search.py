@@ -141,7 +141,7 @@ def complete_search(query):
         id_to_reu= pandas.read_csv(f3)
         print >> sys.stderr, "loaded f3"
         f3.close()
-    red_text = pickle.load(open('reddit/red_ix_to_text.p', 'rb'))
+    red_text = pickle.load(open('red_ix_to_text.p', 'rb'))
     reuters_ids, reddit_ixs = find_coherent_set(id_to_reu, red_text, reuters_ids, reddit_ixs)
 
     print >> sys.stderr, "size of set: " + str(len(reuters_ids))
@@ -179,7 +179,7 @@ def complete_search(query):
                     continue
                 tup_ixs = set([date.encode("utf8") for date in tup_ixs])
                 inter = reu_id_set.intersection(tup_ixs)
-                card = [reddate.encode("utf8"), tup[1].encode("utf8"), tup[2], tup[3], tup[4].encode("utf8"), inter]
+                card = [reddate.encode("utf8"), tup[1].encode("utf8"), tup[2], tup[3], tup[4].encode("utf8"), inter, val]
                 reu_id_set -= set(tup_ixs)
                 cards.append(card)
             f1.close()
@@ -187,7 +187,7 @@ def complete_search(query):
             #Iterate over reuter ixs not covered through reddit (i.e. small cards)
             for reu_id in reu_id_set:
                 date = str(reu_id)[:8]
-                card = [date, reu_id]
+                card = [date, reu_id, reu_id_dict[reu_id]]
                 cards.append(card)
     gc.collect()
 
@@ -197,7 +197,7 @@ def complete_search(query):
     head_ind= pandas.Index(id_to_reu["headline"])
     print >> sys.stderr, "populating cards with headlines"
     for each_card in cards:
-        if len(each_card) == 2:
+        if len(each_card) == 3:
             loc= id_ind.get_loc(each_card[1])
             each_card[1]= head_ind[loc].encode("utf8")
         else:
@@ -207,6 +207,7 @@ def complete_search(query):
                 list_headlines.append(head_ind[loc].encode("utf8"))
             each_card[5]= list_headlines
         print >> sys.stderr, each_card
+    cards.sort(key=lambda x: x[-1], reverse=True)
     return cards
 
 if __name__ == '__main__':

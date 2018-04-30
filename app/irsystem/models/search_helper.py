@@ -15,7 +15,7 @@ def filter_by_tfidf_score(tups, threshold, max_results):
     return filtered
 
 
-def closest_docs(index_in, docs_compressed, total_text_to_ix_or_id, max_return=5, min_thresh=.4):
+def closest_docs(index_in, docs_compressed, total_text_to_ix_or_id, max_return=3, min_thresh=.4):
     sims = docs_compressed.dot(docs_compressed[index_in,:])
     asort = np.argsort(-sims)[:max_return+1]
     docs = [(total_text_to_ix_or_id[i],sims[i]/sims[asort[0]], i) \
@@ -27,16 +27,16 @@ def closest_docs(index_in, docs_compressed, total_text_to_ix_or_id, max_return=5
 def find_coherent_set(df, red_text, reuters_ids, reddit_ixs):
     reu_trim = filter_by_tfidf_score(reuters_ids, .3 , 500)
     red_trim_dirty = filter_by_tfidf_score(reddit_ixs, .3 , 100)
-    red_trim = [rt for rt in red_trim_dirty if len(red_text[rt[1]]) > 4]
+    red_trim = [rt for rt in red_trim_dirty if len(red_text.get(rt[1], '')) > 4]
+
+    if len(reu_trim) < 3 or len(red_trim) < 1:
+        return reuters_ids, reddit_ixs
 
     red_score, red_id = map(list,zip(*red_trim))
     reu_score, reu_id = map(list,zip(*reu_trim))
 
     total_text = [red_text[t] for t in red_id] + \
                     list(df[df['id'].isin(reu_id)]['headline'])
-
-    if len(total_text) < 5:
-        return reuters_ids, reddit_ixs
 
     mat_ix_to_total_text = {}
     total_text_to_ix_or_id = {}

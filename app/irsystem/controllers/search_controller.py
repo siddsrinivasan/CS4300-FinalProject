@@ -19,16 +19,21 @@ reload(sys)
 sys.setdefaultencoding('utf8')
 project_name = "Informd"
 net_id = "Edward Mei: ezm4, Evan Pike: dep78, Lucas Van Bramer: ljv32, Sidd Srinivasan: ss2969, Wes Gurnee: rwg97"
-searching_message = None 
+# searching_message = None 
 
 @irsystem.route('/', methods=['GET'])
 def search_current():
-	searching_message = "Gathering Query"
 	query = request.args.get('search')
 	sort_order = request.args.get('sort_order')
 	precision_recall_percent = request.args.get('precision_recall')
+	date_range = request.args.get('date_range')
 	try:
 		precision_recall_percent = int(precision_recall_percent)
+	except:
+		pass
+
+	try:
+		date_range = int(date_range)
 	except:
 		pass
 
@@ -67,6 +72,14 @@ def search_current():
 
 			b.append((date, headline, date_int, reddit_score, url, reddit_score_int))
 
+
+		# remove docs outside the date range
+		b_prime = []
+		for doc in b:
+			if not (doc[2] < date_range):
+				b_prime.append(doc)
+
+		b = b_prime
 		# change the number of documents returned based on user input P/R 
 		# default score of 100 to return all returned documents.
 		if (precision_recall_percent < 100.0):
@@ -102,7 +115,7 @@ def search_current():
 		# Need to parse unique identifier and convert it to date.
 		# Need to group all events of the same date together for the timeline card.
 	return render_template('search.html', name=project_name, netid=net_id, output_message=output_message, data=b, json = array_json, relevance_data=c,
-	 auto_complete = auto_complete_list, searching_message = searching_message)
+	 auto_complete = auto_complete_list)
 
 
 @irsystem.route('/prototype1/', methods=['GET'])

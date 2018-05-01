@@ -59,7 +59,7 @@ def expand_query(query_tokens_ix, query_tokens_term, reu_vocab_to_ix):
                 for w in syns:
                     reu_ix = reu_vocab_to_ix.get(w, -1)
                     if reu_ix != -1:
-                        expanded_query[reu_vocab_to_ix[w]] = .4
+                        expanded_query[reu_vocab_to_ix[w]] = max(.6/len(query_tokens_term), .2)
             gc.collect()
             return expanded_query
 

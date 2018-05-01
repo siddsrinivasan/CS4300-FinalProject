@@ -12,7 +12,7 @@
         <!-- Script for the Visual of the Timeline -->
         <script src="https://d3js.org/d3.v4.min.js"></script>
         <!-- Fonts StyleSheet used to load google fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:700|Quicksand|Quicksand:700" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:700|Quicksand|Quicksand:700|Roboto" rel="stylesheet">
 
         <!-- Range Slider Libraries -->
        <!--  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -33,7 +33,7 @@
             </div>
             <button type="submit" class="btn btn-info" id = "search_button"> Search </button>
             <br> <br>   
-            <button id = "advanced_search" type="button" class="btn btn-sm" style="background-color: transparent; font-family:Futura"> ⇓ Advanced Search ⇓ </button>
+            <button id = "advanced_search" type="button" class="btn btn-sm" style="background-color: transparent; font-family:Roboto"> ⇓ Advanced Search ⇓ </button>
             <br><br>
 
             <div id = "advanced_search_div" style ="display:none">
@@ -327,7 +327,7 @@
                 .style("text-anchor", "middle")
                 .text("Reddit Upvotes"); 
 
-            var tick_fonts = d3.select("body").selectAll("text").style("font-family", "Futura");
+            var tick_fonts = d3.select("body").selectAll("text").style("font-family", "Roboto");
 
               // text label for the y axis
   

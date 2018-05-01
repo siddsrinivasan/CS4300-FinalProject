@@ -113,13 +113,30 @@
 
         <div id = "all_results">    <!-- Used to contain all 
             the results so they are hidden with new search -->
+
             <div id = "search_result" ><div id = "output_text"> <span> {{output_message}} </span></div></div>
             <div id= "timegraph"> 
                 <svg id = "svg_graph"></svg>
                 <br>
             </div>
 
+
             {% if data %}
+            <div id="legend_scores">
+                <div id="c_legend">
+                    
+                    <img id="icon_l" src="static/images/light.png">
+                    -  Coherence Score
+                    
+                </div>
+                <div id="reddit_legend">
+                   
+                    <img id="icon_l" src="static/images/reddit.png">
+                     -  Reddit Upvotes
+                    
+                </div>
+            </div>
+
             <div class= "timeline" id ="timeline0">     <br>
                 {% for d in data %}
                     {% if data.index(d) % 2 != 0 %}
@@ -148,7 +165,6 @@
                                                     <p id= heat>  {{d[3]}} </p>
                                                     <img id="icon2" src="static/images/reddit.png">
                                                 </div>
-                                                <div class = "shown_score_l"> Reddit Upvotes </div>
                                             </div>
                                             <br><br>
 
@@ -186,7 +202,6 @@
                                                     
                                                 </div>
 
-                                                <div class = "shown_score_r"> Reddit Upvotes </div>
                                             </div>
                                             <br><br>
 

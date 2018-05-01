@@ -97,6 +97,38 @@ a#title_link:active {
 }
 
 
+/*________LEGEND____________________________*/
+
+#legend_scores{
+    margin:auto;
+    height:25px;
+    width:25%;
+    font-family: Quicksand;
+    font-size: 12px;
+    padding-top:20px;
+    padding-bottom:35px;
+}
+
+#reddit_legend{
+    width:40.5%;
+    float:left;
+    text-align: center;
+}
+
+#c_legend{
+    width:41%;
+    float:right;
+    text-align: center;
+}
+
+#icon_l{
+    height:20px;
+    width:20px;
+    float:left;
+    margin:auto;
+}
+
+
 
 /*________SCORE+DATE____________________________*/
 
@@ -137,24 +169,6 @@ a#title_link:active {
     cursor:pointer;
 }
 
-.shown_score_r{
-    display:none;
-    position:relative;
-    max-width: 100px;
-    background-color: #EEEEEE;
-    font-family:Quicksand;
-    font-size: 12px
-}
-.score_r:hover + .shown_score_r{
-    display:block;
-    left:170px;
-    top:20px;
-    text-align:center;
-    padding-top:5px;
-    padding-bottom:2px;
-
-}
-
 /*------*/
 
 .score_l{
@@ -165,23 +179,6 @@ a#title_link:active {
     
 }
 
-.shown_score_l{
-    display:none;
-    position:relative;
-    max-width: 100px;
-    background-color: #EEEEEE;
-    font-family:Quicksand;
-    font-size: 12px;
-}
-.score_l:hover + .shown_score_l{
-    display:block;
-    left:170px;
-    top:20px;
-    text-align:center;
-    padding-top:5px;
-    padding-bottom:2px;
-
-}
 
 #icon2{
     width: 25px;

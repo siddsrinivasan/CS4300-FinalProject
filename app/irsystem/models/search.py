@@ -175,7 +175,7 @@ def complete_search(query):
                 #Reddit has date, but reuters does not
                 if tup_ixs == -1:
                     #print("IN -1")
-                    card = [reddate.encode("utf8"), tup[1].encode("utf8"), tup[2], tup[3], tup[4].encode("utf8"), [], round(reu_id_dict[reu_id], 2)]
+                    card = [reddate.encode("utf8"), tup[1].encode("utf8"), tup[2], tup[3], tup[4].encode("utf8"), [], round(val,2)]
                     cards.append(card)
                     continue
                 tup_ixs = set([date.encode("utf8") for date in tup_ixs])

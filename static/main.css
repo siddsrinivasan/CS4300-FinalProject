@@ -51,12 +51,12 @@ a#title_link:active {
     margin:auto;
     padding-top:0px;
     text-align:center;
-    font-size: 14px;
-    font-family: Quicksand;
+    font-size: 16px;
+    font-family: Futura;
+    color: #FC5D50;
 }
 
 #output_text span{
-    background-color: #FAC8B8
 }
 #p1 {
     font-family: Quicksand;
@@ -110,13 +110,13 @@ a#title_link:active {
 }
 
 #reddit_legend{
-    width:40.5%;
+    width:45%;
     float:left;
     text-align: center;
 }
 
 #c_legend{
-    width:41%;
+    width:45%;
     float:right;
     text-align: center;
 }
@@ -490,7 +490,6 @@ color: black;
     bottom: 0;
     left: 50%;
     margin-left: -3px;
-    opacity:0.6;
 }
 
 /* Container around content */

@@ -9,6 +9,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 
 
 def filter_by_tfidf_score(tups, threshold, max_results):
+    """Return documents above a threshold or up to the max"""
     filtered = sorted(tups, key=lambda x: x[0], reverse=True)
     if len(filtered) > max_results:
         return filtered[:max_results]
@@ -16,6 +17,7 @@ def filter_by_tfidf_score(tups, threshold, max_results):
 
 
 def closest_docs(index_in, docs_compressed, total_text_to_ix_or_id, max_return=3, min_thresh=.4):
+    """Return the closest documents to the document associated with index_in"""
     sims = docs_compressed.dot(docs_compressed[index_in,:])
     asort = np.argsort(-sims)[:max_return+1]
     docs = [(total_text_to_ix_or_id[i],sims[i]/sims[asort[0]], i) \
@@ -25,6 +27,8 @@ def closest_docs(index_in, docs_compressed, total_text_to_ix_or_id, max_return=3
 
 
 def find_coherent_set(df, red_text, reuters_ids, reddit_ixs):
+    """Return the a set of documents that form a coherent set as determined by
+    SVD bootstrap algorithm."""
     reu_trim = filter_by_tfidf_score(reuters_ids, .2 , 500)
     red_trim_dirty = filter_by_tfidf_score(reddit_ixs, .2 , 100)
     red_trim = [rt for rt in red_trim_dirty if len(red_text.get(rt[1], '')) > 4]

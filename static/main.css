@@ -52,7 +52,7 @@ a#title_link:active {
     padding-top:0px;
     text-align:center;
     font-size: 16px;
-    font-family: Futura;
+    font-family: Roboto;
     color: #FC5D50;
 }
 
@@ -66,7 +66,7 @@ a#title_link:active {
 }
 
 #p2 {
-    font-family: Futura;
+    font-family: Roboto;
     font-size: 15px;
     position:relative;
 }
@@ -256,7 +256,6 @@ a#title_link:active {
 
 /*_____________ADVANCED SEARCH______________________*/
 #advanced_search_div{
-    font-family: futura; 
 }
 
 #advanced_search_div legend{

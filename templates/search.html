@@ -68,15 +68,15 @@
                 <br>
                 <br>
 
-                <p id = "p2"> select the level of detail you want for your topic </p>
+                <p id = "p2"> adjust the level of detail you want for your topic </p>
                 <br><br>
 
                 <div class="slidecontainer">
                     <div style = "float:left"> 
-                        <p id = "slider_labels" style = "float:left"> low-depth </p>
+                        <p id = "slider_labels" style = "float:left"> low-breadth </p>
                     </div>
                     <div style = "float:right">
-                        <p id = "slider_labels" style = "float:right"> high-depth </p>
+                        <p id = "slider_labels" style = "float:right"> high-breadth </p>
                     </div>
                     <br>
 
@@ -126,13 +126,13 @@
                 <div id="c_legend">
                     
                     <img id="icon_l" src="static/images/light.png">
-                    -  Coherence Score
+                    Coherence Score
                     
                 </div>
                 <div id="reddit_legend">
                    
                     <img id="icon_l" src="static/images/reddit.png">
-                     -  Reddit Upvotes
+                     Reddit Upvotes
                     
                 </div>
             </div>
@@ -316,7 +316,7 @@
             // add this line to the graph.
             svg.append("path")
                 .attr("d", line(data_final))
-                .style("stroke", "#000000")
+                .style("stroke", "#fC5D50")
                 .style("fill", "none");
 
             svg.append("text")

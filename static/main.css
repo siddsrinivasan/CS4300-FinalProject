@@ -52,7 +52,7 @@ a#title_link:active {
     padding-top:0px;
     text-align:center;
     font-size: 16px;
-    font-family: Roboto;
+    font-family: Futura;
     color: #FC5D50;
 }
 
@@ -66,7 +66,7 @@ a#title_link:active {
 }
 
 #p2 {
-    font-family: Roboto;
+    font-family: Futura;
     font-size: 15px;
     position:relative;
 }
@@ -138,7 +138,7 @@ a#title_link:active {
 
 #heat {
     float: right;
-    font-family: Quicksand;
+    font-family: Futura;
     font-weight: bold;
     padding-right: 10px;
 }

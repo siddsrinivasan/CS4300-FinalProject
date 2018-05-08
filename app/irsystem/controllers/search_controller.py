@@ -17,18 +17,22 @@ from json import load as jsload
 from numpy import load as npload
 from pickle import load as pload
 
+print >> sys.stderr, "start of code"
+reload(sys)
+sys.setdefaultencoding('utf8')
+
 # Change this parameter if the file path is different
 BASE = "/app/app/irsystem/controllers/"
 auto_complete_list= pload(open(os.path.join(BASE, 'autocomplete_bigram_vocab.pickle'), 'rb'))
 
-reload(sys)
-sys.setdefaultencoding('utf8')
+
 project_name = "Informd"
 net_id = "Edward Mei: ezm4, Evan Pike: dep78, Lucas Van Bramer: ljv32, Sidd Srinivasan: ss2969, Wes Gurnee: rwg97"
 
 
 ########## change back for docker ###################
 BASE = "/app/app/irsystem/models/"
+
 
 reu_tf_idf_npz= open(os.path.join(BASE,'reuters/tfidf_mat.npz'))
 reu_tf_idf_npz= load_npz(reu_tf_idf_npz)
@@ -58,6 +62,8 @@ date_to_id       = open(os.path.join(BASE,'reuters/date_to_id.json'))
 date_to_id       = jsload(date_to_id)
 
 red_text = pload(open(os.path.join(BASE, 'red_ix_to_text.p'), 'rb'))
+
+
 print >> sys.stderr, "LOADED FILES AT THE START"
 
 
@@ -66,6 +72,7 @@ print >> sys.stderr, "LOADED FILES AT THE START"
 @irsystem.route('/', methods=['GET'])
 def search_current():
 	##
+	print >> sys.stderr, "someone accessing page"
 	start = time.time()
 
 	query = request.args.get('search')

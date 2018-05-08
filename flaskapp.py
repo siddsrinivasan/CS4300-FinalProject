@@ -2,7 +2,7 @@ from flask import Flask, render_template
 from app.irsystem.controllers import search_controller
 import sys
 import gc
-import gevent.wsgi
+import gevent.pywsgi
 import gevent.monkey
 import werkzeug.serving
 
@@ -11,7 +11,7 @@ sys.setdefaultencoding('utf8')
 
 gevent.monkey.patch_all()
 app = Flask(__name__)
-app.debug= True
+# app.debug= True
 
 @app.route("/")
 def search_app_current():
@@ -28,9 +28,9 @@ def search_app_prot2():
     gc.collect()
     return search_controller.search_prot2_controller()
 
-@werkzeug.serving.run_with_reloader
+# @werkzeug.serving.run_simple
 def run_server():
-    ws = gevent.wsgi.WSGIServer(listener=('0.0.0.0', 80),
+    ws = gevent.pywsgi.WSGIServer(listener=('0.0.0.0', 80),
                                 application=app)
     ws.serve_forever()
 

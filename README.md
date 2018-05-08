@@ -1,1 +1,1 @@
-#we did this all ourselves and it is very difficult
+#we did this all ourselves and it was very difficult

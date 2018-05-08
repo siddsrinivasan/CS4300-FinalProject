@@ -8,7 +8,7 @@
         <!-- Autocomplete libraries -->
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
         <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
-    <link href=http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css 
+    <link href=http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css
         <!-- Script for the Visual of the Timeline -->
         <script src="https://d3js.org/d3.v4.min.js"></script>
         <!-- Fonts StyleSheet used to load google fonts -->
@@ -25,14 +25,14 @@
     <body id = "main_body">
         <form class="form-inline global-search" onsubmit= "preloader()">
 
-            <h1 id = "logo"> <a href="informd.info" id="title_link"> Informd </a></h1> <br style = "line-height: 25%">
+            <h1 id = "logo"> <a href="http://informd.info/" id="title_link"> Informd </a></h1> <br style = "line-height: 25%">
             <h2 id = "subtitle"> the evolution of news </h2>
             <br><br>
             <div class="form-group">
-                <input id="input" type="text" name="search" class="form-control" label="Tell me about: Israeli-Palestine Conflict">
+                <input id="input" type="text" name="search" class="form-control" placeholder="Tell me about: Russian Election Hacking">
             </div>
             <button type="submit" class="btn btn-info" id = "search_button"> Search </button>
-            <br> <br>   
+            <br> <br>
             <button id = "advanced_search" type="button" class="btn btn-sm" style="background-color: transparent; font-family:Futura"> ⇓ Advanced Search ⇓ </button>
             <br><br>
 
@@ -42,7 +42,7 @@
                 <legend> Sort by: </legend>
                 <div class="form-check">
                   <label class="form-check-label">
-                        <input type="radio" class="form-check-input" name="sort_order" id="optionsRadios1" value="option1" checked> 
+                        <input type="radio" class="form-check-input" name="sort_order" id="optionsRadios1" value="option1" checked>
                         <!-- By default this is set to reverse chronological -->
                         Reverse Chronological
                     <span class=checkmark></span>
@@ -60,7 +60,7 @@
                 <div class="form-check">
                     <label class="form-check-label">
                         <input type="radio" class="form-check-input" name="sort_order" id="optionsRadios3" value="option3">
-                        Relevance 
+                        Relevance
                         <span class=checkmark></span>
                     </label>
                 </div>
@@ -72,7 +72,7 @@
                 <br><br>
 
                 <div class="slidecontainer">
-                    <div style = "float:left"> 
+                    <div style = "float:left">
                         <p id = "slider_labels" style = "float:left"> low-breadth </p>
                     </div>
                     <div style = "float:right">
@@ -89,7 +89,7 @@
                 <br><br>
 
                 <div class="slidecontainer">
-                     <div style = "float:left"> 
+                     <div style = "float:left">
                         <p id = "slider_labels" style = "float:left"> 2013</p>
                     </div>
                     <div style = "float:right">
@@ -111,11 +111,11 @@
             <!-- <p id="p2"> <br>{{searching_message}} </p>  -->
         </div>
 
-        <div id = "all_results">    <!-- Used to contain all 
+        <div id = "all_results">    <!-- Used to contain all
             the results so they are hidden with new search -->
 
             <div id = "search_result" ><div id = "output_text"> <span> {{output_message}} </span></div></div>
-            <div id= "timegraph"> 
+            <div id= "timegraph">
                 <svg id = "svg_graph"></svg>
                 <br>
             </div>
@@ -124,16 +124,16 @@
             {% if data %}
             <div id="legend_scores">
                 <div id="c_legend">
-                    
+
                     <img id="icon_l" src="static/images/light.png">
                     Coherence Score
-                    
+
                 </div>
                 <div id="reddit_legend">
-                   
+
                     <img id="icon_l" src="static/images/reddit.png">
                      Reddit Upvotes
-                    
+
                 </div>
             </div>
 
@@ -145,21 +145,21 @@
                                 {% for x in d[1] %}
                                         {% if d[4] == "nope" %}
                                             <div class="container_header">
-                                                <div class="date"> <p id = "date1"> {{d[0]}} <p> </div> 
-                                                <div class="score"> 
+                                                <div class="date"> <p id = "date1"> {{d[0]}} <p> </div>
+                                                <div class="score">
                                                     <!-- Coherence Score -->
-                                                    <p id= heat>  {{d[6]}} </p> 
+                                                    <p id= heat>  {{d[6]}} </p>
                                                     <img id="icon" src="static/images/light.png">
                                                 </div>
-                                                
+
                                             </div>
                                             <br><br>
                                             <div id = "p2"> {{x}} </div>
                                         {%else %}
 
                                         <div class="container_header">
-                                                <div class="date"> <p id = "date1"> {{d[0]}} <p> </div> 
-                                                <div class="score_l"> 
+                                                <div class="date"> <p id = "date1"> {{d[0]}} <p> </div>
+                                                <div class="score_l">
                                                     <p id= heat>  {{d[6]}} </p>
                                                     <img id="icon" src="static/images/light.png">
                                                     <p id= heat>  {{d[3]}} </p>
@@ -180,12 +180,12 @@
                                 {% for x in d[1] %}
                                         {% if d[4] == "nope" %}
                                             <div class="container_header">
-                                                <div class="date"> <p id = "date1"> {{d[0]}} <p> </div> 
-                                                <div class="scores"> 
-                                                    <p id= heat>  {{d[6]}} </p> 
+                                                <div class="date"> <p id = "date1"> {{d[0]}} <p> </div>
+                                                <div class="scores">
+                                                    <p id= heat>  {{d[6]}} </p>
                                                     <img id="icon" src="static/images/light.png">
                                                 </div>
-                                                              
+
                                             </div>
                                             <br><br>
 
@@ -193,20 +193,20 @@
                                         {%else %}
 
                                         <div class="container_header">
-                                                <div class="date"> <p id = "date1"> {{d[0]}} <p> </div> 
-                                                <div class="score_r"> 
+                                                <div class="date"> <p id = "date1"> {{d[0]}} <p> </div>
+                                                <div class="score_r">
                                                     <p id= heat>  {{d[6]}} </p>
                                                     <img id="icon" src="static/images/light.png">
                                                     <p id= heat>  {{d[3]}} </p>
                                                     <img id="icon2" src="static/images/reddit.png">
-                                                    
+
                                                 </div>
 
                                             </div>
                                             <br><br>
 
                                             <div id="p2"> <a href="{{d[4]}}"> {{x}}</a></div>
-                                            
+
                                         {% endif %}
                                 {% endfor %}
                             </div>
@@ -267,7 +267,7 @@
             responseFn( a );
             }
         });
-            
+
         // SLIDER
         var slider = document.getElementById("myRange");
         var output = document.getElementById("demo");
@@ -287,10 +287,10 @@
             var padding = 15;       // allows you to put axis labels
             var height = 225;       // may need to modify
             var width = 650;
-            
+
             var svg = d3.select("#svg_graph")      // will need to put the svg within a div.
             .attr("height", height + 2*padding).attr("width", width + 2* padding)
-            .append("g"); 
+            .append("g");
 
             // axis
             var xScale = d3.scaleLinear().domain(d3.extent(xdata))   // change from d.date to date int.
@@ -308,9 +308,9 @@
             svg.append("text").attr("transform", "rotate(270) translate(" + width / 2  + "," + height/2 + ")").text("Reddit Score"); // Might need to realign
             svg.append("text").attr("transform", "translate(200, 350)").text("Date");
 
-            // creates the line that connects the points. 
+            // creates the line that connects the points.
             var line = d3.line()
-            .x(function(d) { return xScale(d.date); })    
+            .x(function(d) { return xScale(d.date); })
             .y(function(d) { return yScale(d.reddit_score); });
 
             // add this line to the graph.
@@ -325,21 +325,21 @@
                 .attr("x",0 - (height / 2))
                 .attr("dy", "1em")
                 .style("text-anchor", "middle")
-                .text("Reddit Upvotes"); 
+                .text("Reddit Upvotes");
 
             var tick_fonts = d3.select("body").selectAll("text").style("font-family", "Futura");
 
               // text label for the y axis
-  
+
 
 
 
 
 
             // svg.append("circle")
-            //     .attr("cx", function(d) { return xScale(d.date); })       // change 
+            //     .attr("cx", function(d) { return xScale(d.date); })       // change
             //     .attr("cy", function(d) { return yScale(d.reddit_score); })      // change
-            //     .attr("r", 2)     
+            //     .attr("r", 2)
             //     .style("fill", "black");    // need to check that this color works.
             }
 
@@ -367,7 +367,7 @@
                 var dates_final = [];
                 var scores_final = [];
 
-                for (i = 0; i < dates_arr.length; i++) { 
+                for (i = 0; i < dates_arr.length; i++) {
                     if (scores_arr[i] == "NA"){
                         scores_final.push(Number(100));
                         dates_final.push(Number(dates_arr[i]));
@@ -396,7 +396,7 @@
                 var dates_final = [];
                 var scores_final = [];
 
-                for (i = 0; i < dates_arr.length; i++) { 
+                for (i = 0; i < dates_arr.length; i++) {
                     if (scores_arr[i] == "NA"){
                         scores_final.push(Number(100));
                         dates_final.push(Number(dates_arr[i]));

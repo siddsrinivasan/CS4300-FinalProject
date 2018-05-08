@@ -64,7 +64,7 @@ def find_coherent_set(df, red_text, reuters_ids, reddit_ixs):
     explored_set = set()
 
     while(len(frontier_set) > 0):
-        print(frontier_set)
+        # print(frontier_set)
         new_doc_ix = frontier_set.pop()
         explored_set.add(new_doc_ix)
         close_docs = closest_docs(new_doc_ix, docs_compressed, total_text_to_ix_or_id)

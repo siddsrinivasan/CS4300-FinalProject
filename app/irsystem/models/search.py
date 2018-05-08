@@ -38,8 +38,8 @@ def tokenize_query(query, ds):
                 query_dict_ix[vocab_to_ix[tok]] += 1
                 query_dict_term[tok] += 1
         expanded_query_dict = expand_query(query_dict_ix, query_dict_term, vocab_to_ix)
-        gc.collect()
         f.close()
+        gc.collect()
         return expanded_query_dict
 
 
@@ -72,6 +72,7 @@ def return_relevant_red_doc_ixs(query_vec, ds, t):
         most_rel = zip(cos_sim.data, cos_sim.nonzero()[1])
         most_rel = [(val, ix) for val, ix in most_rel if val > t]
         f.close()
+        gc.collect()
         return most_rel
 
 
@@ -107,6 +108,7 @@ def return_relevant_reu_doc_ids(query_vec, ds, t):
             most_rel = [(val, ix_to_val[str(ix)].encode("utf8")) for val, ix in most_rel if val > t]
         f.close()
         f2.close()
+        gc.collect()
         return most_rel
 
 
@@ -142,8 +144,11 @@ def complete_search(query):
         id_to_reu= pandas.read_csv(f3)
         print >> sys.stderr, "loaded f3"
         f3.close()
+        gc.collect()
     red_text = pickle.load(open(os.path.join(BASE, 'red_ix_to_text.p'), 'rb'))
     reuters_ids, reddit_ixs = find_coherent_set(id_to_reu, red_text, reuters_ids, reddit_ixs)
+    red_text = None
+    gc.collect()
 
     print >> sys.stderr, "size of set: " + str(len(reuters_ids))
     reu_id_dict, reu_id_set = reu_id_decomp(reuters_ids)
@@ -185,6 +190,7 @@ def complete_search(query):
                 cards.append(card)
             f1.close()
             f2.close()
+            gc.collect()
             #Iterate over reuter ixs not covered through reddit (i.e. small cards)
             for reu_id in reu_id_set:
                 date = str(reu_id)[:8]
@@ -209,6 +215,7 @@ def complete_search(query):
             each_card[5]= list_headlines
         print >> sys.stderr, each_card
     cards.sort(key=lambda x: x[-1], reverse=True)
+    gc.collect()
     return cards
 
 if __name__ == '__main__':

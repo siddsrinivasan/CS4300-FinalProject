@@ -176,7 +176,7 @@ a#title_link:active {
     height:20px;
     float: left;
     cursor:pointer;
-    
+
 }
 
 
@@ -185,7 +185,7 @@ a#title_link:active {
     height: 20px;
     float: right;
     padding-right: 5px;
-    
+
 
 }
 
@@ -193,7 +193,7 @@ a#title_link:active {
     width: 20px;
     height: 20px;
     float: right;
-    
+
 }
 
 .container_header{
@@ -234,7 +234,7 @@ a#title_link:active {
   100% { transform: rotate(360deg); }
 }
 
-#search_message{   
+#search_message{
     height:20%;
     width:300px;
     margin:auto;
@@ -256,10 +256,11 @@ a#title_link:active {
 
 /*_____________ADVANCED SEARCH______________________*/
 #advanced_search_div{
+  font-family: Futura;
 }
 
 #advanced_search_div legend{
-    font-size:14px; 
+    font-size:14px;
 }
 
 .form-check{

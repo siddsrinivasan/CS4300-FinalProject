@@ -36,8 +36,8 @@ def tokenize_query(query, ds):
                 query_dict_ix[vocab_to_ix[tok]] += 1
                 query_dict_term[tok] += 1
         expanded_query_dict = expand_query(query_dict_ix, query_dict_term, vocab_to_ix)
-        gc.collect()
         f.close()
+        gc.collect()
         return expanded_query_dict
 
 
@@ -70,6 +70,7 @@ def return_relevant_red_doc_ixs(query_vec, ds, t):
         most_rel = zip(cos_sim.data, cos_sim.nonzero()[1])
         most_rel = [(val, ix) for val, ix in most_rel if val > t]
         f.close()
+        gc.collect()
         return most_rel
 
 
@@ -105,6 +106,7 @@ def return_relevant_reu_doc_ids(query_vec, ds, t):
             most_rel = [(val, ix_to_val[str(ix)].encode("utf8")) for val, ix in most_rel if val > t]
         f.close()
         f2.close()
+        gc.collect()
         return most_rel
 
 
@@ -173,6 +175,7 @@ def complete_search(query):
                 cards.append(card)
             f1.close()
             f2.close()
+            gc.collect()
             #Iterate over reuter ixs not covered through reddit (i.e. small cards)
             for reu_id in reu_id_set:
                 cossim = reu_id_dict[reu_id]
@@ -202,6 +205,7 @@ def complete_search(query):
                 list_headlines.append(head_ind[loc].encode("utf8"))
             each_card[5]= list_headlines
         print >> sys.stderr, each_card
+    gc.collect()
     return cards
 
 if __name__ == '__main__':

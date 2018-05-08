@@ -8,18 +8,19 @@ from app.irsystem.models import search_prot2 as search_prot2
 import json
 import os
 import pickle
+import gc
 
 
 # Change this parameter if the file path is different
 
-BASE = "app/irsystem/controllers"
+BASE = "/app/app/irsystem/controllers/"
 auto_complete_list= pickle.load(open(os.path.join(BASE, 'autocomplete_bigram_vocab.pickle'), 'rb'))
 
 reload(sys)
 sys.setdefaultencoding('utf8')
 project_name = "Informd"
 net_id = "Edward Mei: ezm4, Evan Pike: dep78, Lucas Van Bramer: ljv32, Sidd Srinivasan: ss2969, Wes Gurnee: rwg97"
-# searching_message = None 
+# searching_message = None
 
 @irsystem.route('/', methods=['GET'])
 def search_current():
@@ -27,6 +28,7 @@ def search_current():
 	sort_order = request.args.get('sort_order')
 	precision_recall_percent = request.args.get('precision_recall')
 	date_range = request.args.get('date_range')
+	gc.collect()
 	try:
 		precision_recall_percent = int(precision_recall_percent)
 	except:
@@ -51,7 +53,7 @@ def search_current():
 		b= []
 		c = []
 		array_json = []
-		
+
 		for each_result in res:
 			length_card = len(each_result)
 			reddit_score = "NA"
@@ -81,13 +83,13 @@ def search_current():
 				b_prime.append(doc)
 
 		b = b_prime
-		# change the number of documents returned based on user input P/R 
+		# change the number of documents returned based on user input P/R
 		# default score of 100 to return all returned documents.
 		if (precision_recall_percent < 100.0):
-			num_docs = len(b)		# need to check this 
+			num_docs = len(b)		# need to check this
 			num_docs_returned = max(int((num_docs * (precision_recall_percent / 100.0))), 2)
 
-			b = b[:num_docs_returned] 
+			b = b[:num_docs_returned]
 
 		if sort_order == "option1":
 			b = sorted(b, key=lambda x: x[2], reverse = True)
@@ -100,6 +102,8 @@ def search_current():
 		output_message = "Your search: " + query
 		searching_message = ""
 
+		gc.collect()
+
 		# actual data format: list with tuples ("unique identifier", headline).
 		# Need to parse unique identifier and convert it to date.
 		# Need to group all events of the same date together for the timeline card.
@@ -110,6 +114,7 @@ def search_current():
 @irsystem.route('/prototype1/', methods=['GET'])
 def search_prot1_controller():
 	query = request.args.get('search')
+	gc.collect()
 	if not query:
 		b = []
 		output_message = ''
@@ -124,7 +129,7 @@ def search_prot1_controller():
 			b.append((date, headline))
 
 		output_message = "Your search: " + query
-
+		gc.collect()
 		# actual data format: list with tuples ("unique identifier", headline).
 		# Need to parse unique identifier and convert it to date.
 		# Need to group all events of the same date together for the timeline card.
@@ -134,6 +139,7 @@ def search_prot1_controller():
 @irsystem.route('/prototype2/', methods=['GET'])
 def search_prot2_controller():
 	query = request.args.get('search')
+	gc.collect()
 	if not query:
 		b = []
 		output_message = ''
@@ -165,7 +171,7 @@ def search_prot2_controller():
 		b = sorted(b, key=lambda x: x[2], reverse = True)
 
 		output_message = "Your search: " + query
-
+		gc.collect()
 		# actual data format: list with tuples ("unique identifier", headline).
 		# Need to parse unique identifier and convert it to date.
 		# Need to group all events of the same date together for the timeline card.

@@ -3,6 +3,7 @@ import os
 import json
 import numpy as np
 from collections import defaultdict
+import pandas
 from scipy.sparse import csr_matrix, load_npz
 from sklearn.feature_extraction.text import TfidfVectorizer
 
@@ -23,8 +24,8 @@ def tokenize_query(query):
             tfidf_vocab_ix = vocab_to_ix.get(tok, -1)
             if tfidf_vocab_ix != -1:
                 query_dict[vocab_to_ix[tok]] += 1
-        gc.collect()
         f.close()
+        gc.collect()
         return query_dict
 
 
@@ -51,6 +52,7 @@ def return_relevant_doc_ixs(query_vec, num_docs=20):
         most_rel = zip(cos_sim.data, cos_sim.nonzero()[1])
         most_rel.sort(key=(lambda x: x[0]), reverse=True)
         f.close()
+        gc.collect()
         return most_rel[:num_docs]
 
 def return_doc_ids(query):
@@ -63,17 +65,33 @@ def return_doc_ids(query):
         for value, ix in rel_doc_ixs:
             doc_ids.append(docix_to_docid[unicode(ix)])
         f.close()
+        gc.collect()
         return doc_ids
 
 def return_docs(query):
     doc_ids = return_doc_ids(query)
-    with open(os.path.join(os.path.dirname(__file__), 'reuters/id_to_reu_headline.json')) as f:
-        id_to_title = json.load(f)
-        docs = []
-        for id in doc_ids:
-            docs.append((id, id_to_title[id]))
-        f.close()
-        return docs
+    # with open(os.path.join(os.path.dirname(__file__), 'reuters/id_to_reu_headline.json')) as f:
+
+
+    with open(os.path.join(os.path.dirname(__file__), 'reuters/id_to_reu_headline.csv')) as f3:
+        id_to_reu= pandas.read_csv(f3)
+        f3.close()
+    gc.collect()
+
+    id_ind= pandas.Index(id_to_reu["id"])
+    head_ind= pandas.Index(id_to_reu["headline"])
+
+    docs = []
+
+    for each_id in doc_ids:
+        loc= id_ind.get_loc(each_id)
+        headline= head_ind[loc].encode("utf8")
+        docs.append((each_id, headline))
+
+    gc.collect()
+    return docs
+
+
 
 
 # if __name__ == '__main__':

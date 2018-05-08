@@ -5,29 +5,74 @@ from app.irsystem.models.helpers import NumpyEncoder as NumpyEncoder
 from app.irsystem.models import search as search
 from app.irsystem.models import search_prot1 as search_prot1
 from app.irsystem.models import search_prot2 as search_prot2
-import json
-import os
-import pickle
-import gc
 
+import os
+import gc
+import time # remove later
+
+# big loads - caution this truck is carrying a big load
+from scipy.sparse import load_npz
+from pandas import read_csv
+from json import load as jsload
+from numpy import load as npload
+from pickle import load as pload
 
 # Change this parameter if the file path is different
-
 BASE = "/app/app/irsystem/controllers/"
-auto_complete_list= pickle.load(open(os.path.join(BASE, 'autocomplete_bigram_vocab.pickle'), 'rb'))
+auto_complete_list= pload(open(os.path.join(BASE, 'autocomplete_bigram_vocab.pickle'), 'rb'))
 
 reload(sys)
 sys.setdefaultencoding('utf8')
 project_name = "Informd"
 net_id = "Edward Mei: ezm4, Evan Pike: dep78, Lucas Van Bramer: ljv32, Sidd Srinivasan: ss2969, Wes Gurnee: rwg97"
+
+
+########## change back for docker ###################
+BASE = "/app/app/irsystem/models/"
+
+reu_tf_idf_npz= open(os.path.join(BASE,'reuters/tfidf_mat.npz'))
+reu_tf_idf_npz= load_npz(reu_tf_idf_npz)
+
+reu_ix_to_val= open(os.path.join(BASE,'reuters/matrix_ix_to_val.json'))
+reu_ix_to_val= jsload(reu_ix_to_val)
+
+id_to_reu = open(os.path.join(BASE,'reuters/id_to_reu_headline.csv'))
+id_to_reu= read_csv(id_to_reu)
+
+reu_vocab_to_ix  = open(os.path.join(BASE, 'reuters/vocab_to_ix.json'))
+reu_vocab_to_ix  = jsload(reu_vocab_to_ix)
+
+red_vocab_to_ix  = open(os.path.join(BASE, 'reddit/vocab_to_ix.json'))
+red_vocab_to_ix  = jsload(red_vocab_to_ix)
+
+words_compressed = open(os.path.join(BASE, 'u.npy'), 'rb')
+words_compressed = npload(words_compressed)
+docs_compressed  = open(os.path.join(BASE, 'v_trans.npy'), 'rb')
+docs_compressed  = npload(docs_compressed)
+
+ATN_word_to_ix   = pload(open(os.path.join(BASE, 'allthenews_vocab_ix.p')))
+
+reddit_ix_to_val = open(os.path.join(BASE, 'reddit/matrix_ix_to_val.json'))
+reddit_ix_to_val = jsload(reddit_ix_to_val)
+date_to_id       = open(os.path.join(BASE,'reuters/date_to_id.json'))
+date_to_id       = jsload(date_to_id)
+
+red_text = pload(open(os.path.join(BASE, 'red_ix_to_text.p'), 'rb'))
+print >> sys.stderr, "LOADED FILES AT THE START"
+
+
 # searching_message = None
 
 @irsystem.route('/', methods=['GET'])
 def search_current():
+	##
+	start = time.time()
+
 	query = request.args.get('search')
 	sort_order = request.args.get('sort_order')
 	precision_recall_percent = request.args.get('precision_recall')
 	date_range = request.args.get('date_range')
+
 	gc.collect()
 	try:
 		precision_recall_percent = int(precision_recall_percent)
@@ -48,7 +93,9 @@ def search_current():
 		change_month = {"01": "January", "02" :"February", "03" : "March", "04" : "April",
 		 "05": "May", "06": "June", "07": "July", "08":"August", "09":"September", "10":"October",
 		 "11":"November", "12": "December"}
-		res= search.complete_search(query)
+		res= search.complete_search(query, reu_tf_idf_npz, reu_ix_to_val, \
+		 id_to_reu, red_vocab_to_ix, reu_vocab_to_ix, words_compressed, docs_compressed, \
+		 ATN_word_to_ix, reddit_ix_to_val, date_to_id, red_text)
 
 		b= []
 		c = []
@@ -107,6 +154,9 @@ def search_current():
 		# actual data format: list with tuples ("unique identifier", headline).
 		# Need to parse unique identifier and convert it to date.
 		# Need to group all events of the same date together for the timeline card.
+	end = time.time()
+	print >> sys.stderr, end-start
+
 	return render_template('search.html', name=project_name, netid=net_id, output_message=output_message, data=b, json = array_json, relevance_data=c,
 	 auto_complete = auto_complete_list)
 

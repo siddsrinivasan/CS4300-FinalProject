@@ -8,18 +8,13 @@
         <!-- Autocomplete libraries -->
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
         <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
-    <link href=http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css
+        <link href=http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css
         <!-- Script for the Visual of the Timeline -->
         <script src="https://d3js.org/d3.v4.min.js"></script>
         <!-- Fonts StyleSheet used to load google fonts -->
         <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:700|Quicksand|Quicksand:700|Roboto" rel="stylesheet">
-
-        <!-- Range Slider Libraries -->
-       <!--  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-        <link rel="stylesheet" href="/resources/demos/style.css">
-        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
-
+        <!-- For the thumbd down icon -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     </head>
     <body id = "main_body">
@@ -80,7 +75,7 @@
                     </div>
                     <br>
 
-                  <input type="range" name = "precision_recall" min="1" max="100" value="100" class="slider" id="myRange">
+                  <input type="range" name = "precision_recall" min="1" max="100" value="50" class="slider" id="myRange">
                     <p> <div id="slider1text"><span id="demo"></span> </div>  % </p>
                 </div>
                 <br><br>
@@ -103,7 +98,7 @@
                 <br><br>
             </div>
         </form>
-
+        <!-- _________________________________ TIMELINE HTML __________________________________ -->
 
         <div id="loading" style="display: none;">
             <div class = "loader"> </div>
@@ -113,31 +108,26 @@
 
         <div id = "all_results">    <!-- Used to contain all
             the results so they are hidden with new search -->
-
             <div id = "search_result" ><div id = "output_text"> <span> {{output_message}} </span></div></div>
             <div id= "timegraph">
                 <svg id = "svg_graph"></svg>
                 <br>
             </div>
 
-
             {% if data %}
             <div id="legend_scores">
                 <div id="c_legend">
-
                     <img id="icon_l" src="static/images/light.png">
                     Coherence Score
-
                 </div>
                 <div id="reddit_legend">
-
                     <img id="icon_l" src="static/images/reddit.png">
                      Reddit Upvotes
-
                 </div>
             </div>
 
-            <div class= "timeline" id ="timeline0">     <br>
+            <div class= "timeline" id ="timeline0"> 
+                <br>
                 {% for d in data %}
                     {% if data.index(d) % 2 != 0 %}
                         <div class="container left">
@@ -145,20 +135,26 @@
                                 {% for x in d[1] %}
                                         {% if d[4] == "nope" %}
                                             <div class="container_header">
-                                                <div class="date"> <p id = "date1"> {{d[0]}} <p> </div>
+                                                <div class="date"> 
+                                                     <i onclick="thumbToggle(this)" class="fa fa-thumbs-up" id = "thumb_position" data-toggle="tooltip" title=" Don't find this relevant? click to downvote it">
+                                                    </i>
+                                                    <p id = "date1"> {{d[0]}} <p> </div>
                                                 <div class="score">
                                                     <!-- Coherence Score -->
                                                     <p id= heat>  {{d[6]}} </p>
                                                     <img id="icon" src="static/images/light.png">
                                                 </div>
-
                                             </div>
                                             <br><br>
                                             <div id = "p2"> {{x}} </div>
                                         {%else %}
 
                                         <div class="container_header">
-                                                <div class="date"> <p id = "date1"> {{d[0]}} <p> </div>
+                                                <div class="date">
+                                                    <i onclick="thumbToggle(this)" class="fa fa-thumbs-up" id = "thumb_position" data-toggle="tooltip" title=" Don't find this relevant? click to downvote it">
+                                                    </i>
+
+                                                 <p id = "date1"> {{d[0]}} <p> </div>
                                                 <div class="score_l">
                                                     <p id= heat>  {{d[6]}} </p>
                                                     <img id="icon" src="static/images/light.png">
@@ -180,20 +176,24 @@
                                 {% for x in d[1] %}
                                         {% if d[4] == "nope" %}
                                             <div class="container_header">
-                                                <div class="date"> <p id = "date1"> {{d[0]}} <p> </div>
+                                                <div class="date">
+                                                    <i onclick="thumbToggle(this)" class="fa fa-thumbs-up" id = "thumb_position" data-toggle="tooltip" title=" Don't find this relevant? click to downvote it">
+                                                    </i>
+                                                    <p id = "date1"> {{d[0]}} <p> </div>
                                                 <div class="scores">
                                                     <p id= heat>  {{d[6]}} </p>
                                                     <img id="icon" src="static/images/light.png">
                                                 </div>
-
                                             </div>
                                             <br><br>
-
                                             <div id = "p2"> {{x}} </div>
-                                        {%else %}
 
+                                        {%else %}
                                         <div class="container_header">
-                                                <div class="date"> <p id = "date1"> {{d[0]}} <p> </div>
+                                                <div class="date">
+                                                    <i onclick="thumbToggle(this)" class="fa fa-thumbs-up" id = "thumb_position" data-toggle="tooltip" title=" Don't find this relevant? click to downvote it">
+                                                    </i>
+                                                    <p id = "date1"> {{d[0]}} <p> </div>
                                                 <div class="score_r">
                                                     <p id= heat>  {{d[6]}} </p>
                                                     <img id="icon" src="static/images/light.png">
@@ -201,21 +201,21 @@
                                                     <img id="icon2" src="static/images/reddit.png">
 
                                                 </div>
-
                                             </div>
                                             <br><br>
-
                                             <div id="p2"> <a href="{{d[4]}}"> {{x}}</a></div>
-
                                         {% endif %}
+
                                 {% endfor %}
+
                             </div>
                         </div>
 
                     {% endif %}
-                {% endfor %}
 
+                {% endfor %}
             </div>
+
             {% endif %}
         </div>
         <br>
@@ -229,19 +229,12 @@
     <script>
         function preloader(){
             console.log("called preloader");
-            old_results = document.getElementById("all_results");
-            old_results.style.display = "none"
-            loading_div = document.getElementById("loading");
-            loading_div.style.display= "block";
-            footer0 = document.getElementById("bottom_screen_footer");
-            footer0.style.display = "block";
-            timeline = document.getElementById("timeline0");
-            console.log(timeline);
-            timeline.style.display = "block";
-            advanced_search = document.getElementById("advanced_search");
-            advanced_search.disabled = true;
-            advanced_search_div = document.getElementById("advanced_search_div");
-            advanced_search_div.style.display = "none";
+            old_results = document.getElementById("all_results").style.display = "none";
+            loading_div = document.getElementById("loading").style.display = "block";
+            footer0 = document.getElementById("bottom_screen_footer").style.display = "block";
+            timeline = document.getElementById("timeline0").style.display = "block";
+            advanced_search = document.getElementById("advanced_search").disabled = true;
+            advanced_search_div = document.getElementById("advanced_search_div").style.display = "none";
         }
 
         // Opens advanced search menu on click.
@@ -277,9 +270,24 @@
           output.innerHTML = this.value;
         }
 
+
+        // Thumbs Down Animation  - flips the direction of the thumb
+        function thumbToggle(x) {
+            x.classList.toggle("fa-thumbs-down");
+        }
+
+        // tool tip - anything with the word tooltip will get a tool tip now.
+        // This means we can add tool tips to the relevance score and the coherence score.
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip(); 
+        });
+
+
+
+
+
         function plotGraph(xdata, ydata){
             // console.log(xdata, ydata);
-
             var data_final = xdata.map(function(d, i){
                 return { 'date' : Number(d), 'reddit_score' : Number(ydata[i])};
             });
@@ -287,7 +295,6 @@
             var padding = 15;       // allows you to put axis labels
             var height = 225;       // may need to modify
             var width = 650;
-
             var svg = d3.select("#svg_graph")      // will need to put the svg within a div.
             .attr("height", height + 2*padding).attr("width", width + 2* padding)
             .append("g");
@@ -328,28 +335,12 @@
                 .text("Reddit Upvotes");
 
             var tick_fonts = d3.select("body").selectAll("text").style("font-family", "Futura");
-
-              // text label for the y axis
-
-
-
-
-
-
-            // svg.append("circle")
-            //     .attr("cx", function(d) { return xScale(d.date); })       // change
-            //     .attr("cy", function(d) { return yScale(d.reddit_score); })      // change
-            //     .attr("r", 2)
-            //     .style("fill", "black");    // need to check that this color works.
             }
-
-
 
 
             {% if data and not relevance_data %}
 
-                advanced_search = document.getElementById("advanced_search");
-                advanced_search.disabled = false;
+                advanced_search = document.getElementById("advanced_search").disabled = false;
 
                 var dates_arr = [];
                 var scores_arr = [];

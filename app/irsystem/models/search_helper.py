@@ -49,7 +49,6 @@ def find_coherent_set(df, red_text, reuters_ids, reddit_ixs, irrelevant_list=[])
         mat_ix_to_total_text[ix] = txt
         if ix < n_red_articles:
             total_text_to_ix_or_id[ix] = red_id[ix]
-            ixid_to_matix[ix]
         else:
             total_text_to_ix_or_id[ix] = reu_id[ix-n_red_articles]
     ixid_to_tfidfmat = {v: k for k, v in total_text_to_ix_or_id.iteritems()}

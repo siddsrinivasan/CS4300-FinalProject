@@ -96,6 +96,17 @@ a#title_link:active {
     text-align: center;
 }
 
+.re-search {
+    padding-top: 10px;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 50%;
+    background-color: white;
+    text-align: center;
+}
+
+
 
 /*________LEGEND____________________________*/
 
@@ -572,4 +583,26 @@ color: black;
     top: 15px;
     border-radius: 50%;
     z-index: 1;
+}
+
+
+/*_____________________ THUMBS DOWN ICON*/
+
+
+#thumb_position {
+    position: relative;
+    float: left;
+    padding-top: 3px;
+    padding-right: 8px;
+
+}
+
+.fa {
+    font-size: 50px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.fa:hover {
+  color:#FC5D50;
 }

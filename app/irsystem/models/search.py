@@ -123,7 +123,7 @@ def reu_id_decomp(reuters_ids):
 
 
 def complete_search(query, tf_idf_npz_reu, reu_ix_to_val, id_to_reu, red_vocab_to_ix, \
- reu_vocab_to_ix, words_compressed, docs_compressed, ATN_word_to_ix, reddit_ix_to_val, date_to_id, red_text):
+ reu_vocab_to_ix, words_compressed, docs_compressed, ATN_word_to_ix, reddit_ix_to_val, date_to_id, red_text, irrel_docs=[]):
     """
     Given a user query, return large cards where
     reddit links to reuters headlines as well as
@@ -137,7 +137,7 @@ def complete_search(query, tf_idf_npz_reu, reu_ix_to_val, id_to_reu, red_vocab_t
 
     #Relevance bootstrap with SVD
     print >> sys.stderr, "before da pickle"
-    reuters_ids, reddit_ixs = find_coherent_set(id_to_reu, red_text, reuters_ids, reddit_ixs)
+    reuters_ids, reddit_ixs = find_coherent_set(id_to_reu, red_text, reuters_ids, reddit_ixs, irrel_docs)
     red_text = None
     gc.collect()
 
@@ -183,7 +183,7 @@ def complete_search(query, tf_idf_npz_reu, reu_ix_to_val, id_to_reu, red_vocab_t
     head_ind= pandas.Index(id_to_reu["headline"])
     print >> sys.stderr, "populating cards with headlines"
     for each_card in cards:
-        if len(each_card) == 3:
+        if len(each_card) == 4:
             loc= id_ind.get_loc(each_card[1])
             each_card[1]= head_ind[loc].encode("utf8")
         else:

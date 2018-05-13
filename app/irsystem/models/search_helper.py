@@ -26,7 +26,7 @@ def closest_docs(index_in, docs_compressed, total_text_to_ix_or_id, max_return=3
 
 
 
-def find_coherent_set(df, red_text, reuters_ids, reddit_ixs):
+def find_coherent_set(df, red_text, reuters_ids, reddit_ixs, irrelevant_list=[]):
     """Return the a set of documents that form a coherent set as determined by
     SVD bootstrap algorithm."""
     reu_trim = filter_by_tfidf_score(reuters_ids, .3 , 300)
@@ -49,8 +49,10 @@ def find_coherent_set(df, red_text, reuters_ids, reddit_ixs):
         mat_ix_to_total_text[ix] = txt
         if ix < n_red_articles:
             total_text_to_ix_or_id[ix] = red_id[ix]
+            ixid_to_matix[ix]
         else:
             total_text_to_ix_or_id[ix] = reu_id[ix-n_red_articles]
+    ixid_to_tfidfmat = {v: k for k, v in total_text_to_ix_or_id.iteritems()}
 
     vectorizer = TfidfVectorizer(stop_words = 'english', min_df = 3)
     tfidf_mat = vectorizer.fit_transform(total_text).transpose()
@@ -80,9 +82,10 @@ def find_coherent_set(df, red_text, reuters_ids, reddit_ixs):
 
     irrel_set = defaultdict(int)
     for i in irrelevant_list:
-        close_docs = closest_docs(new_doc_ix, docs_compressed, total_text_to_ix_or_id,max_return=50, min_thresh=.1)
+        irrel_doc_ix = ixid_to_tfidfmat[i]
+        close_docs = closest_docs(irrel_doc_ix, docs_compressed, total_text_to_ix_or_id,max_return=50, min_thresh=.1)
         relevant_set[i] = 0
-        print('Length of close Docs:', len(close_docs))
+        #print('Length of close Docs:', len(close_docs))
         for d, score, ix in close_docs:
             relevant_set[d] -= score * 5
 

@@ -165,19 +165,19 @@ def complete_search(query, tf_idf_npz_reu, reu_ix_to_val, id_to_reu, red_vocab_t
         #Reddit has date, but reuters does not
         if tup_ixs == -1:
             #print("IN -1")
-            card = [reddate.encode("utf8"), tup[1].encode("utf8"), tup[2], tup[3], tup[4].encode("utf8"), [], round(val,2)]
+            card = [reddate.encode("utf8"), tup[1].encode("utf8"), tup[2], tup[3], tup[4].encode("utf8"), [], ix, round(val,2)]
             cards.append(card)
             continue
         tup_ixs = set([date.encode("utf8") for date in tup_ixs])
         inter = reu_id_set.intersection(tup_ixs)
-        card = [reddate.encode("utf8"), tup[1].encode("utf8"), tup[2], tup[3], tup[4].encode("utf8"), inter, round(val,2)]
+        card = [reddate.encode("utf8"), tup[1].encode("utf8"), tup[2], tup[3], tup[4].encode("utf8"), inter, ix, round(val,2)]
         reu_id_set -= set(tup_ixs)
         cards.append(card)
     gc.collect()
     #Iterate over reuter ixs not covered through reddit (i.e. small cards)
     for reu_id in reu_id_set:
         date = str(reu_id)[:8]
-        card = [date, reu_id, round(reu_id_dict[reu_id], 2)]
+        card = [date, reu_id, reu_id, round(reu_id_dict[reu_id], 2)]
         cards.append(card)
     id_ind= pandas.Index(id_to_reu["id"])
     head_ind= pandas.Index(id_to_reu["headline"])

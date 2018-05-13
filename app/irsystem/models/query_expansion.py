@@ -47,16 +47,14 @@ def closest_words(word_in, words_compressed, word_to_ix, index_to_word, k=3, cut
 def expand_query(query_tokens_ix, query_tokens_term, reu_vocab_to_ix, words_compressed, docs_compressed, ATN_word_to_ix):
     expanded_query = copy.deepcopy(query_tokens_ix)
     words_compressed = normalize(words_compressed, axis = 1)
-    print "CCCCCCCC"
     ATN_ix_to_word = {i:t for t,i in ATN_word_to_ix.iteritems()}
     for tok in query_tokens_term:
         syns = closest_words(tok, words_compressed, ATN_word_to_ix, ATN_ix_to_word)
         for w in syns:
             reu_ix = reu_vocab_to_ix.get(w, -1)
             if reu_ix != -1:
-                expanded_query[reu_vocab_to_ix[w]] = .2
+                expanded_query[reu_vocab_to_ix[w]] = .3
     gc.collect()
-    print "DDDDDDDD"
     return expanded_query
 
 
